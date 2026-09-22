@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * Design tokens. Space-separated RGB channels so Tailwind opacity modifiers work.
+ * Every colour on the site resolves here. Contrast against both surfaces is verified for
+ * `ink`, `stamp` and `void` in light and dark; the lowest pair is 4.71:1.
+ *
+ * `rule` sits deliberately below 3:1. It is a decorative separator only. Anything carrying
+ * meaning (the struck rule marking an undisclosed outcome) or bounding a control uses `void`.
+ */
+:root {
+  --paper: 246 242 233;
+  --paper-100: 239 234 222;
+  --ink: 26 23 20;
+  --rule: 201 191 174;
+  --stamp: 183 52 42;
+  --void: 110 102 90;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: 22 19 15;
+    --paper-100: 30 26 21;
+    --ink: 239 233 220;
+    --rule: 58 52 43;
+    --stamp: 228 96 79;
+    --void: 154 144 131;
+    color-scheme: dark;
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-paper font-serif text-body text-ink antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-normal text-ink;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* The art direction's focus ring, not the browser default. Never animated. */
+  :focus-visible {
+    outline: 2px solid rgb(var(--stamp));
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: rgb(var(--stamp) / 0.18);
+  }
+}
+
+@layer utilities {
+  /* Ledger figures are lining and tabular so columns align and digits never reflow. */
+  .tnum {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@layer components {
+  /**
+   * Figures column. The resting transform is the final value: no JavaScript, no observer, or
+   * reduced motion all render the correct figure. `Reconcile` adds the start state and
+   * animates back to this.
+   */
+  .digit {
+    display: inline-block;
+    height: 1em;
+    overflow: hidden;
+    line-height: 1;
+  }
+
+  .digit-track {
+    display: block;
+    transform: translateY(calc((10 + var(--d)) * -1em));
+  }
+
+  .digit-track > span {
+    display: block;
+    height: 1em;
+    line-height: 1;
+  }
+}
+
+@layer components {
+  /**
+   * Reconciliation, the signature interaction.
+   *
+   * These rules exist only under `.js-motion`, which the head script adds before first paint
+   * and only when IntersectionObserver is present and reduced motion is not requested. The
+   * resting styles above remain the truth for every other case.
+   *
+   * Transform and opacity only. Per element the longest is 380ms; the stagger is what carries
+   * the sequence past that.
+   */
+  .js-motion .reconcile .digit-track {
+    transform: translateY(0);
+  }
+
+  .js-motion .reconcile .strike {
+    transform: scaleX(0);
+  }
+
+  .js-motion .reconcile .strike-label {
+    opacity: 0;
+  }
+
+  .js-motion .reconcile.is-running .digit-track {
+    transform: translateY(calc((10 + var(--d)) * -1em));
+    transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(var(--row) * 70ms);
+  }
+
+  .js-motion .reconcile.is-running .strike {
+    transform: scaleX(1);
+    transition: transform 260ms cubic-bezier(0.65, 0, 0.35, 1);
+    transition-delay: calc(var(--row) * 70ms);
+  }
+
+  .js-motion .reconcile.is-running .strike-label {
+    opacity: 1;
+    transition: opacity 160ms linear;
+    transition-delay: calc(var(--row) * 70ms + 140ms);
+  }
+}
