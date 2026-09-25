@@ -62,6 +62,16 @@ export const featured = timeline.filter(role => role.featured);
 export const alsoShipped = timeline.filter(role => !role.featured);
 export const current = timeline.find(role => role.end === null) ?? null;
 
+/**
+ * Roles that had ended by the time the current one started, most recently ended first. A
+ * contract that overlaps the current role is not "before" it, so it is left out.
+ */
+export const previous: Role[] = current
+  ? timeline
+      .filter(role => role.end !== null && ordinal(role.end) <= ordinal(current.start))
+      .sort((a, b) => ordinal(b.end!) - ordinal(a.end!))
+  : timeline.filter(role => role.end !== null);
+
 /** Every role with a stated figure, in timeline order. */
 export const measured = timeline.filter((role): role is Role & { metric: NonNullable<Role["metric"]> } =>
   Boolean(role.metric),

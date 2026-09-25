@@ -39,7 +39,8 @@ export default function Button({ href, children, variant = "primary", className,
   );
 
   return external ? (
-    <a href={href} className={classes}>
+    // Email links open the compose dialog (see EmailComposer); without JS they stay mailto links.
+    <a href={href} className={classes} data-compose={href.startsWith("mailto:") || undefined}>
       {content}
     </a>
   ) : (

@@ -18,17 +18,38 @@ export function availableShots(role: Role): Screenshot[] {
 
 export type StoreLink = { key: "appStore" | "googlePlay" | "web"; label: string; href: string };
 
+/** One app's buttons. `name` is set only when a role has more than one app. */
+export type StoreGroup = { name?: string; links: StoreLink[] };
+
 /** The stores' own badge wording. */
-const storeLabels: Record<StoreLink["key"], string> = {
+const storeLabels = {
   appStore: "Download on the App Store",
   googlePlay: "Get it on Google Play",
-  web: "Visit the website",
-};
+} as const;
 
-/** The role's download links that are actually set, in a fixed order. */
-export function storeLinks(role: Role): StoreLink[] {
-  return (["appStore", "googlePlay", "web"] as const).flatMap(key => {
-    const href = role.stores[key];
+function appLinks(app: { appStore: string | null; googlePlay: string | null }): StoreLink[] {
+  return (["appStore", "googlePlay"] as const).flatMap(key => {
+    const href = app[key];
     return href ? [{ key, label: storeLabels[key], href }] : [];
   });
+}
+
+/**
+ * The role's download links that are actually set: one group per app, in content order, then
+ * the website on its own. Apps are named only when there is more than one.
+ */
+export function storeGroups(role: Role): StoreGroup[] {
+  const apps = [{ name: role.stores.name, ...role.stores }, ...(role.moreApps ?? [])];
+  const named = apps.length > 1;
+  const groups: StoreGroup[] = apps
+    .map(app => ({ name: named ? app.name : undefined, links: appLinks(app) }))
+    .filter(group => group.links.length > 0);
+
+  const web = role.stores.web;
+  if (web) {
+    // A website button names its domain, so a company site reads differently from a product site.
+    const label = `Visit ${new URL(web).hostname.replace(/^www\./, "")}`;
+    groups.push({ links: [{ key: "web", label, href: web }] });
+  }
+  return groups;
 }

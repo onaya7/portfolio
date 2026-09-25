@@ -1,3 +1,4 @@
+import { portrait } from "@/content/portrait";
 import { contact, education, profiles, site } from "@/content/profile";
 import { current } from "@/lib/work";
 import Contact from "@/components/Contact";
@@ -16,6 +17,7 @@ const personSchema = {
   name: site.name,
   jobTitle: site.title,
   url: site.url,
+  image: new URL(portrait.image.src, site.url).toString(),
   email: `mailto:${contact.email}`,
   address: { "@type": "PostalAddress", addressLocality: "Lagos", addressCountry: "NG" },
   alumniOf: { "@type": "CollegeOrUniversity", name: education.school },

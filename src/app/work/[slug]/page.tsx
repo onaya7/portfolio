@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { roles } from "@/content/roles";
-import { availableShots, storeLinks } from "@/lib/media";
+import { availableShots, storeGroups } from "@/lib/media";
 import { pageMetadata } from "@/lib/metadata";
 import { cn } from "@/lib/utils";
 import { displayName, formatDuration, formatPeriod, nextRole, roleBySlug } from "@/lib/work";
@@ -34,7 +34,7 @@ export default async function WorkPage({ params }: Props) {
   if (!role) notFound();
   const next = nextRole(role);
   const shots = availableShots(role);
-  const stores = storeLinks(role);
+  const stores = storeGroups(role);
 
   const facts = [
     { term: "Role", value: role.title },
@@ -47,7 +47,7 @@ export default async function WorkPage({ params }: Props) {
 
   return (
     <>
-      <article className="page pb-20 pt-10 lg:pb-28 lg:pt-14">
+      <article className="page pb-20 pt-10 lg:pb-28 lg:pt-14" data-compose-topic={displayName(role)}>
         <Link
           href="/#work"
           className="group inline-flex items-center gap-2 font-mono text-label text-muted transition-colors hover:text-fg"
@@ -67,7 +67,7 @@ export default async function WorkPage({ params }: Props) {
               {role.summary}
             </p>
             <div className="rise" style={{ "--i": 2 } as React.CSSProperties}>
-              <StoreLinks links={stores} className="mt-8" />
+              <StoreLinks groups={stores} className="mt-8" />
             </div>
           </div>
           <dl

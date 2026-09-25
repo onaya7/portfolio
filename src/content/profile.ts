@@ -22,12 +22,12 @@ export const contact = {
 } as const;
 
 /**
- * The resume links the word "LinkedIn" but the URL did not survive, and it lists no GitHub.
- * Both stay null until supplied; the renderer omits anything null.
+ * Public profiles. GitHub is the account that owns this repository; its profile links to the
+ * LinkedIn below. Set an href to null to hide a profile.
  */
 export const profiles: { label: string; href: string | null }[] = [
-  { label: "LinkedIn", href: null },
-  { label: "GitHub", href: null },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/samuel-ayano-1336bb247/" },
+  { label: "GitHub", href: "https://github.com/onaya7" },
 ];
 
 export const education = {
@@ -43,3 +43,23 @@ export const certifications: { name: string; issuer: string; year: number; href?
   { name: "Soft Skills", issuer: "Jobberman Nigeria", year: 2022 },
   { name: "Global Citizenship Education for Youth", issuer: "APCEIU", year: 2022 },
 ];
+
+/**
+ * The prefilled email the compose dialog opens with. Visitors can edit both fields before
+ * continuing. `topic` is the product name on a work page, so the draft names what they read.
+ */
+export function emailDraft(topic?: string): { subject: string; body: string } {
+  return {
+    subject: topic ? `Your work on ${topic}` : "Mobile project enquiry",
+    body: [
+      "Hi Samuel,",
+      "",
+      `I came across your portfolio${topic ? ` and your work on ${topic}` : ""} and would like to talk to you about a mobile role or project.`,
+      "",
+      "When would be a good time for a short call?",
+      "",
+      "Thanks,",
+      "",
+    ].join("\n"),
+  };
+}

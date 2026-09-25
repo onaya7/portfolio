@@ -1,7 +1,9 @@
 import type { Role } from "./types";
 
 /**
- * Every role on the resume, in the resume's order. `lib/work.ts` sorts them for display.
+ * Every role on the resume, in the resume's order, followed by the two contracts Samuel added
+ * directly in September 2026 (Lotus Bank and WeTribe), which the resume predates.
+ * `lib/work.ts` sorts them for display.
  *
  * Highlights restate the resume's bullets with the adjectives taken out. Figures appear only
  * where the resume states them, as `metric`. If a claim is not on the resume it does not go here.
@@ -37,7 +39,11 @@ export const roles: Role[] = [
       "Mentor junior engineers on Swift and SwiftUI state management.",
     ],
     stack: ["Swift", "SwiftUI", "Biometrics"],
-    stores: { appStore: null, googlePlay: null },
+    stores: {
+      appStore: "https://apps.apple.com/ng/app/mintyn-everything-finance/id1470644607",
+      googlePlay: "https://play.google.com/store/apps/details?id=com.mintfintech.app",
+      web: "https://mintyn.com",
+    },
     shots: [],
     tone: "ink",
     tags: ["Swift", "SwiftUI", "Biometrics"],
@@ -65,7 +71,11 @@ export const roles: Role[] = [
     ],
     stack: ["Flutter", "Hive", "flutter_secure_storage", "PAPSS", ".NET Core", "Temenos T24"],
     metric: { value: "100%", label: "adoption of the soft-token 2FA in the pilot phase" },
-    stores: { appStore: null, googlePlay: null },
+    stores: {
+      appStore: "https://apps.apple.com/gh/app/firstbank-ghana-mobile-app/id1558479443",
+      googlePlay: "https://play.google.com/store/apps/details?id=com.fbndl.fbnmobileghana",
+      web: "https://www.fbnbankghana.com",
+    },
     shots: [],
     tone: "moss",
     tags: ["Flutter", "PAPSS", "TOTP 2FA", "Offline-first"],
@@ -88,7 +98,11 @@ export const roles: Role[] = [
       "Brought AI-assisted development (GitHub Copilot, ChatGPT) into the team's workflow.",
     ],
     stack: ["Flutter"],
-    stores: { appStore: null, googlePlay: null },
+    stores: {
+      appStore: "https://apps.apple.com/ng/app/ojanow/id6444134665",
+      googlePlay: "https://play.google.com/store/apps/details?id=com.ojanow.app.oja",
+      web: "https://ojanowapp.com",
+    },
     shots: [],
     tone: "clay",
     tags: ["Flutter", "Q-commerce"],
@@ -111,7 +125,7 @@ export const roles: Role[] = [
     ],
     stack: ["Flutter"],
     metric: { value: "200M+", label: "identities covered by the verification APIs integrated" },
-    stores: { appStore: null, googlePlay: null },
+    stores: { appStore: null, googlePlay: null, web: "https://nesterverify.com" },
     shots: [],
     tone: "slate",
     tags: ["Flutter", "KYC", "Identity"],
@@ -157,7 +171,11 @@ export const roles: Role[] = [
     ],
     stack: ["Flutter", "Payment gateways"],
     metric: { value: "15%", label: "faster transaction processing" },
-    stores: { appStore: null, googlePlay: null },
+    stores: {
+      appStore: "https://apps.apple.com/ng/app/myaza-africas-money-app/id6450796310",
+      googlePlay: "https://play.google.com/store/apps/details?id=co.myaza",
+      web: "https://myaza.co",
+    },
     shots: [],
     tone: "moss",
     tags: ["Flutter", "Payments"],
@@ -179,7 +197,7 @@ export const roles: Role[] = [
       "Improved data fetching for faster loading.",
     ],
     stack: ["Flutter"],
-    stores: { appStore: null, googlePlay: null },
+    stores: { appStore: null, googlePlay: null, web: "https://corniehealth.com" },
     shots: [],
     tone: "clay",
     tags: ["Flutter", "Healthtech"],
@@ -199,7 +217,7 @@ export const roles: Role[] = [
       "Organised internal knowledge-sharing sessions on Flutter.",
     ],
     stack: ["Flutter"],
-    stores: { appStore: null, googlePlay: null },
+    stores: { appStore: null, googlePlay: null, web: "https://uobis.com" },
     shots: [],
     tone: "slate",
     tags: ["Flutter", "Mentoring"],
@@ -223,9 +241,81 @@ export const roles: Role[] = [
     ],
     stack: ["Flutter"],
     metric: { value: "30%", label: "reduction in app loading times" },
-    stores: { appStore: null, googlePlay: null },
+    stores: { appStore: null, googlePlay: null, web: "https://www.davidconsult.com.ng" },
     shots: [],
     tone: "bone",
     tags: ["Flutter"],
+  },
+  {
+    slug: "lotus-bank",
+    company: "Lotus Bank",
+    title: "Senior Mobile Engineer",
+    terms: "Contract",
+    start: "2026-08",
+    end: "2026-09",
+    sector: "Banking",
+    summary:
+      "Flutter work on Lotus Bank's corporate (CIB) and retail (RIB) banking apps: payment approval flows, release-safe logging, an iOS engine migration and build tooling for every flavor.",
+    /** From Samuel's work log for the contract. Completed items only; nothing still in progress. */
+    highlights: [
+      "Worked in Flutter on Lotus Business, the bank's corporate internet banking (CIB) app, and the Lotus Bank App for retail customers (RIB).",
+      "Built a central, release-safe logging utility so no sensitive data is ever printed in production builds, replacing scattered print statements.",
+      "Migrated the bill payment approval flow from the deprecated DioError to DioException, with bug fixes and cleanup along the way.",
+      "Fixed missing loading states across the bill, airtime, electricity, data and collection approval screens.",
+      "Added debug logging for interbank name-enquiry requests and reviewed the name-enquiry and approval API contracts with the backend team.",
+      "Moved the iOS AppDelegate to Flutter's new plugin registration pattern and added a Scene Manifest for the new engine lifecycle.",
+      "Standardised the local setup (FVM, VS Code launch settings, DevTools options) and added a Makefile that runs and builds all five flavors: dev, staging, pilot, UAT and production.",
+      "Traced a name-enquiry failure in the UAT environment to a base-URL misconfiguration and worked with the backend team on the sandbox integration.",
+    ],
+    stack: ["Flutter", "Dio", "FVM", "iOS", "Make"],
+    stores: {
+      name: "Lotus Business (CIB)",
+      appStore: "https://apps.apple.com/ng/app/lotus-business/id6474792094",
+      googlePlay: "https://play.google.com/store/apps/details?id=lotus_business2.lotus.mgr",
+      web: "https://www.lotusbank.com",
+    },
+    moreApps: [
+      {
+        name: "Lotus Bank App (RIB)",
+        appStore: "https://apps.apple.com/ng/app/lotus-bank-app/id1599550703",
+        googlePlay: "https://play.google.com/store/apps/details?id=com.lotusbank.ibank",
+      },
+    ],
+    shots: [],
+    tone: "slate",
+    tags: ["Flutter", "CIB", "RIB", "Approvals"],
+  },
+  {
+    slug: "wetribe",
+    company: "WeTribe",
+    context: "TribeAccess Inc.",
+    title: "Senior Mobile Engineer",
+    terms: "Contract",
+    start: "2024-09",
+    end: "2025-11",
+    sector: "Events",
+    summary:
+      "Flutter work on WeTribe ahead of its January 2026 launch: a Canadian app for finding events on a live map, buying tickets in the app, meeting other event-goers and hosting events.",
+    /**
+     * DRAFT. Samuel asked for these to be written from research on the product (App Store
+     * listing, September 2026) rather than a work log. Each maps to a feature the app ships;
+     * confirm with Samuel which ones he built and trim the rest.
+     */
+    highlights: [
+      "Built Flutter features for WeTribe, the events app from TribeAccess Inc. in Canada, in the run-up to its public launch on the App Store and Google Play in January 2026.",
+      "Worked on the real-time live map that shows events happening near the user, and on recommendations tailored to interests and location.",
+      "Worked on secure in-app ticket checkout, so people can buy tickets without leaving the app.",
+      "Worked on the host side: creating events, managing ticket sales and tracking how each event performs.",
+      "Worked on the social layer that helps event-goers find and connect with people who share their interests.",
+    ],
+    stack: ["Flutter"],
+    stores: {
+      appStore: "https://apps.apple.com/ca/app/wetribe/id6746691206",
+      googlePlay: "https://play.google.com/store/apps/details?id=com.tribe.org.tribe",
+      web: "https://wetribe.io",
+    },
+    shots: [],
+    tone: "clay",
+    tags: ["Flutter", "Live map", "Ticketing"],
   },
 ];

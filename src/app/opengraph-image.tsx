@@ -1,5 +1,5 @@
 import { site } from "@/content/profile";
-import { ogImage, ogSize } from "@/lib/og";
+import { ogImage, ogSize, portraitDataUri } from "@/lib/og";
 
 export const alt = `${site.name}, ${site.title}`;
 export const size = ogSize;
@@ -10,5 +10,6 @@ export default function Image() {
     kicker: site.title,
     title: "Mobile apps for money, identity and movement.",
     footnote: "Flutter / Swift / Kotlin",
+    photo: portraitDataUri(),
   });
 }

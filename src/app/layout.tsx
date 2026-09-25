@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import type { Metadata, Viewport } from "next";
 import { site } from "@/content/profile";
 import { cn } from "@/lib/utils";
+import EmailComposer from "@/components/EmailComposer";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Reveal from "@/components/Reveal";
@@ -60,6 +61,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="main">{children}</main>
         <Footer />
         <Reveal />
+        <EmailComposer />
       </body>
     </html>
   );

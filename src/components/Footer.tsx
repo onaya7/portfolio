@@ -35,7 +35,7 @@ export default function Footer() {
         </nav>
 
         <div className="text-small md:col-span-3 md:text-right">
-          <a href={`mailto:${contact.email}`} className="text-muted transition-colors hover:text-fg">
+          <a href={`mailto:${contact.email}`} data-compose className="text-muted transition-colors hover:text-fg">
             {contact.email}
           </a>
           <p className="mt-1 text-subtle">&copy; {new Date().getFullYear()}</p>
