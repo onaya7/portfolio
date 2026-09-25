@@ -1,14 +1,15 @@
 # Samuel Ayano, portfolio
 
-A portfolio for a senior mobile engineer, built as a financial record: nine roles as ledger
-entries, four with a measured outcome and five struck as "not disclosed".
+Portfolio for a senior mobile engineer: selected work as typographic covers, the resume's own
+figures tied to the roles they came from, a full experience timeline and a case-study page for
+every role. Dark by default with a light theme toggle.
 
 ```bash
 yarn install
 yarn dev
 ```
 
-Next.js 15 App Router, React 19, TypeScript, Tailwind 3. No motion library, no component library.
-Content renders without JavaScript.
+Next.js 15 App Router, React 19, TypeScript, Tailwind 3. Fully static. Content lives in
+`src/content/` and every number on the site comes from the resume.
 
-See `AGENTS.md` for conventions, art direction, the motion spec and open items.
+See `AGENTS.md` for conventions, the design system, the motion spec and open items.

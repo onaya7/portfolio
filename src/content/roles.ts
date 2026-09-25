@@ -1,320 +1,321 @@
 import type { Role } from "./types";
 
 /**
- * All nine roles from `Samuel Ayano resume ME.pdf`, newest first.
+ * Every role on the resume, in the resume's order, followed by the two contracts Samuel added
+ * directly in September 2026 (Lotus Bank and WeTribe), which the resume predates.
+ * `lib/work.ts` sorts them for display.
  *
- * `problem` and `myRole` are restatements of what the resume's bullets say. They add no
- * business context the document does not contain. Where the resume is silent, the field
- * says so rather than filling the space.
+ * Highlights restate the resume's bullets with the adjectives taken out. Figures appear only
+ * where the resume states them, as `metric`. If a claim is not on the resume it does not go here.
  *
- * `concurrentWith` is NOT stored here. Several of these roles overlap in time, and hand
- * maintaining that would drift; it is computed from `start`/`end` in `@/lib/derive`.
+ * Store links and screenshots are slots on every role. To fill one in:
+ *
+ *   stores: {
+ *     appStore: "https://apps.apple.com/ng/app/...",
+ *     googlePlay: "https://play.google.com/store/apps/details?id=...",
+ *   },
+ *   shots: [
+ *     { src: "/work/firstbank-ghana/home.png", alt: "Home screen with account balances" },
+ *     { src: "/work/firstbank-ghana/transfer.png", alt: "PAPSS cross-border transfer", caption: "PAPSS transfer" },
+ *   ],
+ *
+ * Image files go in `public/work/<slug>/`. Leave a slot as null or [] and the page omits it.
  */
 export const roles: Role[] = [
   {
-    slug: "mintyn-bank",
+    slug: "mintyn",
     company: "Mintyn Bank",
     title: "Senior Mobile Engineer",
-    sector: "Banking",
     start: "2026-03",
     end: null,
-    dateLabel: "March 2026 - Present",
-    problem:
-      "The bank's iOS app carried legacy UI components that held back responsiveness and reuse, while transaction traffic put pressure on network latency.",
-    myRole:
-      "Senior engineer on iOS. Architected the financial modules, led the SwiftUI migration, and mentored junior engineers on Swift and SwiftUI state management.",
-    constraints: [
-      "New modules had to integrate with existing banking infrastructure",
-      "Strict regulatory compliance on sensitive user financial data",
-      "High-traffic banking transactions",
+    sector: "Banking",
+    summary:
+      "Building financial modules in Swift and SwiftUI, with biometric security and caching for high-traffic transactions.",
+    highlights: [
+      "Architect and build financial modules in Swift and SwiftUI that integrate with the bank's existing infrastructure.",
+      "Lead the migration of legacy components to SwiftUI, improving UI responsiveness, maintainability and reuse.",
+      "Integrate secure authentication, including biometrics, to protect financial data and meet regulatory requirements.",
+      "Cut network latency on high-traffic banking transactions with caching strategies.",
+      "Mentor junior engineers on Swift and SwiftUI state management.",
     ],
-    decisions: [
-      {
-        decision: "Built the financial modules in Swift and SwiftUI rather than extending the legacy UI layer",
-        tradeoff: null,
-      },
-      {
-        decision:
-          "Migrated legacy UI components to SwiftUI architectures, for responsiveness, maintainability and code reuse",
-        tradeoff: null,
-      },
-      {
-        decision: "Integrated biometric authentication to protect financial data and meet compliance requirements",
-        tradeoff: null,
-      },
-      {
-        decision: "Applied caching strategies to reduce network latency on high-traffic transactions",
-        tradeoff: null,
-      },
-    ],
-    outcome: { kind: "unstated" },
-    stack: ["Swift", "SwiftUI", "iOS", "Biometrics"],
-    claims: ["regulated"],
+    stack: ["Swift", "SwiftUI", "Biometrics"],
+    stores: {
+      appStore: "https://apps.apple.com/ng/app/mintyn-everything-finance/id1470644607",
+      googlePlay: "https://play.google.com/store/apps/details?id=com.mintfintech.app",
+      web: "https://mintyn.com",
+    },
+    shots: [],
+    tone: "ink",
+    tags: ["Swift", "SwiftUI", "Biometrics"],
+    featured: true,
   },
   {
     slug: "firstbank-ghana",
-    company: "FirstBank of Nigeria",
-    companyNote: "Ghana subsidiary project",
-    title: "Senior Mobile Engineer (Contract)",
-    sector: "Banking",
+    company: "FirstBank",
+    context: "Ghana subsidiary",
+    title: "Senior Mobile Engineer",
+    terms: "Contract",
     start: "2025-02",
     end: "2026-03",
-    dateLabel: "Feb 2025 - March 2026",
-    problem:
-      "FirstBank Ghana's mobile app needed two-factor authentication that did not depend on distributing physical hardware tokens, and cross-border payments that stayed correct when the connection did not hold.",
-    myRole:
-      "Led feature development on the official FirstBank Ghana mobile app, working daily with the bank's .NET Core backend, Oracle database and Temenos T24 integration teams to deliver zero-downtime releases.",
-    constraints: [
-      "Bank of Ghana cybersecurity guidelines, NDPR and PCI-DSS",
-      "An on-premise .NET Core backend and Ghanaian SMS aggregators",
-      "Oracle database and Temenos T24 core banking integration",
-      "Cross-border settlement requiring full reconciliation and retry",
-      "Physical hardware tokens carried a real distribution cost",
+    sector: "Banking",
+    summary:
+      "Key features for the official FirstBank Ghana app, including its first live PAPSS integration and an offline soft token that replaced hardware tokens.",
+    highlights: [
+      "Led key feature development for the FirstBank Ghana app, used by hundreds of thousands of retail and corporate customers.",
+      "Designed and shipped an offline-capable, TOTP-based soft-token 2FA that replaced hardware tokens and removed the cost of distributing them.",
+      "Delivered the app's first live PAPSS integration: instant cross-border payments in GHS and other African currencies, with full reconciliation and retry logic.",
+      "Built real-time email and SMS transaction alerts against FirstBank's on-premise .NET backend and Ghanaian SMS aggregators.",
+      "Built offline-first transaction queuing, certificate pinning, jailbreak and root detection, and encrypted storage with Hive and flutter_secure_storage.",
+      "Kept the app within Bank of Ghana cybersecurity guidelines, NDPR and PCI-DSS through code review, penetration testing and static analysis.",
+      "Worked daily with the .NET Core, Oracle and Temenos T24 teams to ship zero-downtime releases.",
     ],
-    decisions: [
-      {
-        decision:
-          "Designed an offline-capable soft-token 2FA solution (TOTP-based) to replace hardware tokens entirely",
-        tradeoff: null,
-      },
-      {
-        decision: "Built offline-first transaction queuing with retry logic so payments survive a dropped connection",
-        tradeoff: null,
-      },
-      {
-        decision:
-          "Hardened the client with certificate pinning, jailbreak and root detection, and encrypted local storage (Hive with flutter_secure_storage)",
-        tradeoff: null,
-      },
-      {
-        decision:
-          "Delivered the first live PAPSS integration in the app, enabling instant cross-border payments in GHS and other African currencies with full reconciliation and retry",
-        tradeoff: null,
-      },
-      {
-        decision:
-          "Implemented real-time email and SMS transactional alerts through the bank's on-premise backend and Ghanaian SMS aggregators",
-        tradeoff: null,
-      },
-      {
-        decision: "Held the compliance line through code reviews, penetration testing and static analysis",
-        tradeoff: null,
-      },
-    ],
-    outcome: {
-      kind: "measured",
-      value: "100%",
-      metric: "pilot adoption, soft token",
+    stack: ["Flutter", "Hive", "flutter_secure_storage", "PAPSS", ".NET Core", "Temenos T24"],
+    metric: { value: "100%", label: "adoption of the soft-token 2FA in the pilot phase" },
+    stores: {
+      appStore: "https://apps.apple.com/gh/app/firstbank-ghana-mobile-app/id1558479443",
+      googlePlay: "https://play.google.com/store/apps/details?id=com.fbndl.fbnmobileghana",
+      web: "https://www.fbnbankghana.com",
     },
-    reach: { value: "Hundreds of thousands", metric: "of retail and corporate customers in Ghana" },
-    stack: [
-      "Flutter",
-      "Dart",
-      "TOTP",
-      "PAPSS",
-      "Hive",
-      "flutter_secure_storage",
-      "Certificate pinning",
-      ".NET Core",
-      "Oracle",
-      "Temenos T24",
-    ],
-    claims: ["regulated", "offline", "rails"],
+    shots: [],
+    tone: "moss",
+    tags: ["Flutter", "PAPSS", "TOTP 2FA", "Offline-first"],
+    featured: true,
   },
   {
     slug: "ojanow",
     company: "OjaNow",
     title: "Senior Mobile Engineer",
-    sector: "Q-commerce",
     start: "2025-03",
     end: "2025-09",
-    dateLabel: "March 2025 - Sep 2025",
-    problem:
-      "OjaNow's mission is instant access to essentials in Nigeria's Q-commerce space, which puts delivery speed and 24/7 availability at the centre of the product.",
-    myRole:
-      "Built and maintained the cross-platform apps in Flutter, working with cross-functional teams in an agile process of sprint planning and code review.",
-    constraints: ["24/7 on-demand delivery service", "A rapidly growing user base"],
-    decisions: [
-      {
-        decision: "Optimised app performance and integrated APIs to improve delivery speed and efficiency",
-        tradeoff: null,
-      },
-      { decision: "Incorporated optimised delivery routes to reduce carbon footprint", tradeoff: null },
-      {
-        decision:
-          "Introduced AI-assisted development (GitHub Copilot, ChatGPT) into team workflows to improve sprint velocity and code consistency",
-        tradeoff: null,
-      },
+    sector: "Commerce",
+    summary: "Flutter apps for 24/7 on-demand delivery of essentials in Nigeria's quick-commerce market.",
+    highlights: [
+      "Built and maintained cross-platform Flutter apps for instant, around-the-clock delivery of essentials.",
+      "Designed and implemented interfaces with cross-functional teams for the on-demand delivery flow.",
+      "Improved app performance and integrated APIs to speed up delivery.",
+      "Shipped optimised delivery routes to reduce the service's carbon footprint.",
+      "Worked in agile sprints with planning and code review.",
+      "Brought AI-assisted development (GitHub Copilot, ChatGPT) into the team's workflow.",
     ],
-    outcome: { kind: "unstated" },
-    stack: ["Flutter", "Dart", "REST APIs"],
-    claims: [],
-    sourceNote:
-      "The resume describes this role in terms of contribution rather than result. No figure is given for delivery speed, velocity or growth.",
+    stack: ["Flutter"],
+    stores: {
+      appStore: "https://apps.apple.com/ng/app/ojanow/id6444134665",
+      googlePlay: "https://play.google.com/store/apps/details?id=com.ojanow.app.oja",
+      web: "https://ojanowapp.com",
+    },
+    shots: [],
+    tone: "clay",
+    tags: ["Flutter", "Q-commerce"],
   },
   {
     slug: "ngss",
-    company: "Nester Global Solution Service",
-    companyNote: "NGSS",
+    company: "NGSS",
+    context: "Nester Global Solution Service",
     title: "Senior Flutter Engineer",
-    sector: "Identity",
     start: "2024-06",
     end: "2025-03",
-    dateLabel: "Jun 2024 - March 2025",
-    problem:
-      "Businesses and institutions needed to run real-time KYC checks, and the onboarding flows around identity verification were slower than they needed to be.",
-    myRole:
-      "Built and maintained the Flutter-based digital identity verification products, and worked with backend teams on secure handling of sensitive data.",
-    constraints: [
-      "Real-time verification against a very large identity database",
-      "Industry standards for handling sensitive personal information",
+    sector: "Identity",
+    summary:
+      "Flutter identity verification for real-time KYC, integrating APIs that cover more than 200 million identities in Nigeria.",
+    highlights: [
+      "Built and maintained Flutter identity verification products for real-time KYC checks by businesses and institutions.",
+      "Integrated the APIs behind verification of over 200 million identities in Nigeria.",
+      "Reworked the verification flows to shorten onboarding.",
+      "Implemented secure handling of sensitive data with the backend team.",
     ],
-    decisions: [
-      {
-        decision: "Integrated APIs to verify against the national identity base, serving clients, vendors and partners",
-        tradeoff: null,
-      },
-      { decision: "Reworked the UI/UX of verification workflows to reduce onboarding time", tradeoff: null },
-      { decision: "Implemented secure data handling mechanisms with the backend team", tradeoff: null },
-    ],
-    outcome: { kind: "unstated" },
-    reach: { value: "Over 200 million", metric: "identities reachable through the verification APIs" },
-    stack: ["Flutter", "Dart", "KYC APIs"],
-    claims: ["rails"],
-    sourceNote:
-      "The resume says onboarding times were reduced but gives no figure. The 200 million identities describe the size of the system, not the effect of the work, so they are recorded as reach rather than outcome.",
+    stack: ["Flutter"],
+    metric: { value: "200M+", label: "identities covered by the verification APIs integrated" },
+    stores: { appStore: null, googlePlay: null, web: "https://nesterverify.com" },
+    shots: [],
+    tone: "slate",
+    tags: ["Flutter", "KYC", "Identity"],
+    featured: true,
   },
   {
     slug: "citigo",
     company: "Citigo",
-    companyNote: "Transportation, ride-hailing service",
     title: "Lead Flutter Engineer",
-    sector: "Mobility",
     start: "2024-02",
     end: "2024-08",
-    dateLabel: "Feb 2024 - Aug 2024",
-    problem:
-      "Riders were waiting too long to be matched with a driver, and the app leaned on external navigation tools instead of guiding people in-app.",
-    myRole:
-      "Led development of the core ride-hailing functionality: real-time location tracking, driver-rider matching and fare calculation.",
-    constraints: ["Real-time location accuracy", "Secure in-app transactions"],
-    decisions: [
-      { decision: "Improved the driver-rider matching algorithms", tradeoff: null },
-      {
-        decision: "Integrated mapping APIs for accurate in-app navigation, reducing reliance on external tools",
-        tradeoff: null,
-      },
-      { decision: "Worked with the backend team on seamless data flow and secure transactions", tradeoff: null },
+    sector: "Mobility",
+    summary:
+      "Led the core of a ride-hailing app in Flutter: live location tracking, driver-rider matching and fare calculation.",
+    highlights: [
+      "Led development of the core ride-hailing features: real-time location tracking, driver-rider matching and fare calculation.",
+      "Integrated mapping APIs for in-app navigation, reducing reliance on external navigation apps.",
+      "Improved the driver-rider matching, cutting user wait times by 20%.",
+      "Worked with the backend team on data flow and secure in-app transactions.",
     ],
-    outcome: {
-      kind: "measured",
-      value: "20%",
-      metric: "decrease in user wait times",
-    },
-    stack: ["Flutter", "Dart", "Google Maps SDK", "Real-time location"],
-    claims: [],
+    stack: ["Flutter", "Mapping APIs"],
+    metric: { value: "20%", label: "decrease in user wait times from better matching" },
+    stores: { appStore: null, googlePlay: null },
+    shots: [],
+    tone: "bone",
+    tags: ["Flutter", "Maps", "Real-time"],
+    featured: true,
   },
   {
     slug: "myaza",
     company: "MyAza",
-    companyNote: "Financial technology, payment processing service",
     title: "Flutter Engineer",
-    sector: "Payments",
     start: "2023-10",
     end: "2024-07",
-    dateLabel: "Oct 2023 - Jul 2024",
-    problem:
-      "A payment processing app needed money transfer, authentication and account management to be both secure and fast enough that users trusted it.",
-    myRole: "Designed and built the Flutter UI components for payment processing, and the flows around them.",
-    constraints: ["Secure and efficient money transfers", "Transaction speed as a trust signal"],
-    decisions: [
-      { decision: "Integrated payment gateways and financial APIs for secure money transfers", tradeoff: null },
-      {
-        decision: "Implemented user authentication, account management and money transfer as one coherent set of flows",
-        tradeoff: null,
-      },
-      { decision: "Optimised the code path for faster transaction processing", tradeoff: null },
+    sector: "Payments",
+    summary: "Secure payment UI, authentication and money transfer for a payment processing app.",
+    highlights: [
+      "Designed and built Flutter UI components for the payment processing app.",
+      "Integrated payment gateways and financial APIs for money transfers.",
+      "Implemented authentication, account management and money transfer features.",
+      "Worked with QA to find and resolve bugs before release.",
+      "Optimised transaction code, making transactions 15% faster.",
     ],
-    outcome: { kind: "measured", value: "15%", metric: "increase in transaction speed" },
-    stack: ["Flutter", "Dart", "Payment gateways", "Financial APIs"],
-    claims: ["rails"],
+    stack: ["Flutter", "Payment gateways"],
+    metric: { value: "15%", label: "faster transaction processing" },
+    stores: {
+      appStore: "https://apps.apple.com/ng/app/myaza-africas-money-app/id6450796310",
+      googlePlay: "https://play.google.com/store/apps/details?id=co.myaza",
+      web: "https://myaza.co",
+    },
+    shots: [],
+    tone: "moss",
+    tags: ["Flutter", "Payments"],
   },
   {
     slug: "cornie-health",
     company: "Cornie Health",
-    companyNote: "Medical appointment booking mobile app",
+    product: "E-lerrah",
     title: "Lead Flutter Developer",
-    sector: "Healthtech",
     start: "2024-07",
     end: "2024-09",
-    dateLabel: "Jul 2024 - Sep 2024",
-    problem: "Booking a medical appointment was more complicated than it needed to be for patients and providers.",
-    myRole:
-      "Led development of the E-lerrah mobile app in Flutter, working with designers and backend developers on registration, scheduling, doctor search and payment.",
-    constraints: ["HIPAA compliance on sensitive patient data", "A fixed launch date and budget"],
-    decisions: [
-      {
-        decision: "Built registration, appointment scheduling, doctor search and secure payment as one flow",
-        tradeoff: null,
-      },
-      { decision: "Followed security best practices for handling sensitive patient data", tradeoff: null },
-      { decision: "Optimised data fetching and handling to improve load times", tradeoff: null },
+    sector: "Health",
+    summary: "Led E-lerrah, a medical appointment booking app, from doctor search to secure payment. Launched on time.",
+    highlights: [
+      "Led development of E-lerrah, a Flutter app for booking medical appointments.",
+      "Built registration, scheduling, doctor search and secure payment with the design and backend teams.",
+      "Handled sensitive health data to HIPAA requirements.",
+      "Launched on time and within budget.",
+      "Improved data fetching for faster loading.",
     ],
-    outcome: { kind: "unstated" },
-    stack: ["Flutter", "Dart", "HIPAA"],
-    claims: ["regulated"],
-    sourceNote:
-      "The resume says the app launched on time and within budget and was rapidly adopted, but gives no figure for adoption, load time or either constraint.",
+    stack: ["Flutter"],
+    stores: { appStore: null, googlePlay: null, web: "https://corniehealth.com" },
+    shots: [],
+    tone: "clay",
+    tags: ["Flutter", "Healthtech"],
   },
   {
     slug: "uobis",
     company: "Uobis",
     title: "Flutter Mobile Developer",
-    sector: "Consultancy",
     start: "2022-04",
     end: "2023-10",
-    dateLabel: "Apr 2022 - Oct 2023",
-    problem:
-      "The resume describes this role entirely in terms of code quality and team practice, and names no product.",
-    myRole:
-      "Ran regular code reviews, worked with QA on release quality, mentored junior developers and organised internal knowledge-sharing sessions on Flutter.",
-    constraints: [],
-    decisions: [
-      { decision: "Established code review as a regular practice with constructive feedback", tradeoff: null },
-      { decision: "Worked with QA on thorough testing ahead of releases", tradeoff: null },
-      {
-        decision: "Mentored junior developers on Flutter practice, coding standards and problem solving",
-        tradeoff: null,
-      },
+    sector: null,
+    summary: "Code review, release quality and mentoring on a Flutter team.",
+    highlights: [
+      "Ran regular code reviews and set the team's coding standards.",
+      "Worked with QA to test and resolve issues before each release.",
+      "Mentored junior developers on Flutter practice and problem solving.",
+      "Organised internal knowledge-sharing sessions on Flutter.",
     ],
-    outcome: { kind: "unstated" },
-    stack: ["Flutter", "Dart"],
-    claims: [],
-    sourceNote:
-      "This is the only role in the resume with no product, no domain and no constraints described. It is included because the work history is shown in full.",
+    stack: ["Flutter"],
+    stores: { appStore: null, googlePlay: null, web: "https://uobis.com" },
+    shots: [],
+    tone: "slate",
+    tags: ["Flutter", "Mentoring"],
   },
   {
     slug: "david-consult",
     company: "David Consult",
-    title: "Mobile Engineer, intern",
-    sector: "Consultancy",
+    title: "Mobile Engineer",
+    terms: "Internship",
     start: "2019-03",
     end: "2021-10",
-    dateLabel: "Mar 2019 - Oct 2021",
-    problem: "A mobile application needed to be taken from nothing to shipped, and it was loading too slowly.",
-    myRole:
-      "Built the application end to end in Flutter, working with UX/UI designers to translate specifications and with backend developers on data fetching.",
-    constraints: ["First professional role", "Third-party APIs outside his control"],
-    decisions: [
-      { decision: "Applied Flutter practices for modularity, maintainability and performance", tradeoff: null },
-      { decision: "Integrated third-party APIs for additional functionality", tradeoff: null },
+    sector: null,
+    summary: "Built a Flutter app end to end, and cut its loading time by 30%.",
+    highlights: [
+      "Built a Flutter app end to end.",
+      "Kept the code modular and maintainable.",
+      "Turned design specifications into responsive interfaces with the UX/UI designers.",
+      "Integrated third-party APIs.",
+      "Profiled the app and fixed the bottlenecks, cutting loading times by 30%.",
+      "Optimised data fetching and processing with the backend developers.",
+    ],
+    stack: ["Flutter"],
+    metric: { value: "30%", label: "reduction in app loading times" },
+    stores: { appStore: null, googlePlay: null, web: "https://www.davidconsult.com.ng" },
+    shots: [],
+    tone: "bone",
+    tags: ["Flutter"],
+  },
+  {
+    slug: "lotus-bank",
+    company: "Lotus Bank",
+    title: "Senior Mobile Engineer",
+    terms: "Contract",
+    start: "2026-08",
+    end: "2026-09",
+    sector: "Banking",
+    summary:
+      "Flutter work on Lotus Bank's corporate (CIB) and retail (RIB) banking apps: payment approval flows, release-safe logging, an iOS engine migration and build tooling for every flavor.",
+    /** From Samuel's work log for the contract. Completed items only; nothing still in progress. */
+    highlights: [
+      "Worked in Flutter on Lotus Business, the bank's corporate internet banking (CIB) app, and the Lotus Bank App for retail customers (RIB).",
+      "Built a central, release-safe logging utility so no sensitive data is ever printed in production builds, replacing scattered print statements.",
+      "Migrated the bill payment approval flow from the deprecated DioError to DioException, with bug fixes and cleanup along the way.",
+      "Fixed missing loading states across the bill, airtime, electricity, data and collection approval screens.",
+      "Added debug logging for interbank name-enquiry requests and reviewed the name-enquiry and approval API contracts with the backend team.",
+      "Moved the iOS AppDelegate to Flutter's new plugin registration pattern and added a Scene Manifest for the new engine lifecycle.",
+      "Standardised the local setup (FVM, VS Code launch settings, DevTools options) and added a Makefile that runs and builds all five flavors: dev, staging, pilot, UAT and production.",
+      "Traced a name-enquiry failure in the UAT environment to a base-URL misconfiguration and worked with the backend team on the sandbox integration.",
+    ],
+    stack: ["Flutter", "Dio", "FVM", "iOS", "Make"],
+    stores: {
+      name: "Lotus Business (CIB)",
+      appStore: "https://apps.apple.com/ng/app/lotus-business/id6474792094",
+      googlePlay: "https://play.google.com/store/apps/details?id=lotus_business2.lotus.mgr",
+      web: "https://www.lotusbank.com",
+    },
+    moreApps: [
       {
-        decision: "Ran performance analysis to find bottlenecks, then applied widget optimisations against them",
-        tradeoff: null,
+        name: "Lotus Bank App (RIB)",
+        appStore: "https://apps.apple.com/ng/app/lotus-bank-app/id1599550703",
+        googlePlay: "https://play.google.com/store/apps/details?id=com.lotusbank.ibank",
       },
     ],
-    outcome: { kind: "measured", value: "30%", metric: "reduction in app loading times" },
-    stack: ["Flutter", "Dart"],
-    claims: [],
+    shots: [],
+    tone: "slate",
+    tags: ["Flutter", "CIB", "RIB", "Approvals"],
+  },
+  {
+    slug: "wetribe",
+    company: "WeTribe",
+    context: "TribeAccess Inc.",
+    title: "Senior Mobile Engineer",
+    terms: "Contract",
+    start: "2024-09",
+    end: "2025-11",
+    sector: "Events",
+    summary:
+      "Flutter work on WeTribe ahead of its January 2026 launch: a Canadian app for finding events on a live map, buying tickets in the app, meeting other event-goers and hosting events.",
+    /**
+     * DRAFT. Samuel asked for these to be written from research on the product (App Store
+     * listing, September 2026) rather than a work log. Each maps to a feature the app ships;
+     * confirm with Samuel which ones he built and trim the rest.
+     */
+    highlights: [
+      "Built Flutter features for WeTribe, the events app from TribeAccess Inc. in Canada, in the run-up to its public launch on the App Store and Google Play in January 2026.",
+      "Worked on the real-time live map that shows events happening near the user, and on recommendations tailored to interests and location.",
+      "Worked on secure in-app ticket checkout, so people can buy tickets without leaving the app.",
+      "Worked on the host side: creating events, managing ticket sales and tracking how each event performs.",
+      "Worked on the social layer that helps event-goers find and connect with people who share their interests.",
+    ],
+    stack: ["Flutter"],
+    stores: {
+      appStore: "https://apps.apple.com/ca/app/wetribe/id6746691206",
+      googlePlay: "https://play.google.com/store/apps/details?id=com.tribe.org.tribe",
+      web: "https://wetribe.io",
+    },
+    shots: [],
+    tone: "clay",
+    tags: ["Flutter", "Live map", "Ticketing"],
   },
 ];

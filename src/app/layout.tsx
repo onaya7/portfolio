@@ -1,38 +1,17 @@
-import { IBM_Plex_Mono, Newsreader } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import type { Metadata, Viewport } from "next";
-import { site } from "@/content/contact";
+import { site } from "@/content/profile";
 import { cn } from "@/lib/utils";
-import Footer from "@/layouts/Footer";
-import Header from "@/layouts/Header";
+import EmailComposer from "@/components/EmailComposer";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import Reveal from "@/components/Reveal";
 import "@/styles/index.css";
 import { themeColor } from "@/styles/theme";
 
-/**
- * Newsreader carries display and body, in two weights and one italic.
- *
- * The variable cut with its optical-size axis was the first choice and was dropped: the two
- * variable files came to 273kB and pushed mobile LCP to 3.3s, because the largest element on
- * the page is the h1 and it was re-rendering on font swap. Static 300 and 400 instances cover
- * every weight actually used. The cost is the optical-size axis, so the display line no longer
- * gets a cut tuned for large sizes; at the two sizes in use that is not visible.
- *
- * next/font generates `size-adjust` fallback metrics for both families and self-hosts the
- * files, so swapping in the real face causes no layout shift.
- */
-const newsreader = Newsreader({
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["300", "400"],
-  style: ["normal", "italic"],
-  variable: "--font-newsreader",
-});
-
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "500"],
-  variable: "--font-plex-mono",
-});
+/** Two families, both variable, one file each. */
+const geist = Geist({ subsets: ["latin"], display: "swap", variable: "--font-geist" });
+const geistMono = Geist_Mono({ subsets: ["latin"], display: "swap", variable: "--font-geist-mono" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -50,44 +29,39 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
-export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: themeColor.light },
-    { media: "(prefers-color-scheme: dark)", color: themeColor.dark },
-  ],
-};
+export const viewport: Viewport = { themeColor: themeColor.dark };
 
 /**
- * Runs before first paint. The signature interaction's start state is gated on this class, so
- * without it every figure renders at its resting, correct value. Kept inline and tiny because
- * it has to beat the first paint; an external file would flash.
+ * Runs before first paint.
+ *
+ * 1. Applies the stored theme, so a light-mode visitor never sees a dark flash.
+ * 2. Enables reveal-on-scroll only when it can work (IntersectionObserver, motion allowed), and
+ *    withdraws it after 3s if the Reveal component never hydrated, so content cannot stay hidden.
  */
-const MOTION_GATE =
-  "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver' in window)" +
-  "document.documentElement.classList.add('js-motion')}catch(e){}";
+const BOOT =
+  "try{var d=document.documentElement;d.dataset.theme=localStorage.getItem('theme')==='light'?'light':'dark'}catch(e){}" +
+  "try{if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches){" +
+  "d.classList.add('js-reveal');setTimeout(function(){if(!window.__revealReady)d.classList.remove('js-reveal')},3000)}}catch(e){}";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  // The motion gate mutates this element's class list before React hydrates, by design,
-  // so the html element is the one place a server/client class difference is expected.
+  // The boot script sets data-theme and a class on <html> before React hydrates, by design.
   return (
-    <html lang="en" className={cn(newsreader.variable, plexMono.variable)} suppressHydrationWarning>
+    <html lang="en" data-theme="dark" className={cn(geist.variable, geistMono.variable)} suppressHydrationWarning>
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: MOTION_GATE,
-          }}
-        />
+        <script dangerouslySetInnerHTML={{ __html: BOOT }} />
       </head>
       <body>
         <a
           href="#main"
-          className="sr-only font-mono text-micro focus:not-sr-only focus:fixed focus:left-r2 focus:top-r2 focus:z-50 focus:bg-paper focus:px-r2 focus:py-r1 focus:text-ink focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-[rgb(var(--stamp))]"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-30 focus:rounded-full focus:bg-fg focus:px-4 focus:py-2 focus:text-small focus:text-bg"
         >
           Skip to content
         </a>
         <Header />
         <main id="main">{children}</main>
         <Footer />
+        <Reveal />
+        <EmailComposer />
       </body>
     </html>
   );

@@ -1,173 +1,182 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import type { Metadata } from "next";
-import { claims } from "@/content/claims";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { roles } from "@/content/roles";
-import { concurrencyMap } from "@/lib/derive";
+import { availableShots, storeGroups } from "@/lib/media";
 import { pageMetadata } from "@/lib/metadata";
-import Figure from "@/components/Figure";
-import StruckRule from "@/components/StruckRule";
+import { cn } from "@/lib/utils";
+import { displayName, formatDuration, formatPeriod, nextRole, roleBySlug } from "@/lib/work";
+import Contact from "@/components/Contact";
+import PhoneShot from "@/components/PhoneShot";
+import StoreLinks from "@/components/StoreLinks";
+import WorkCover, { toneClass } from "@/components/WorkCover";
+
+type Props = { params: Promise<{ slug: string }> };
+
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return roles.map(role => ({ slug: role.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params;
-  const role = roles.find(r => r.slug === slug);
+export async function generateMetadata({ params }: Props) {
+  const role = roleBySlug((await params).slug);
   if (!role) return {};
   return pageMetadata({
-    title: `${role.company}, ${role.title}`,
-    description: role.problem,
+    title: `${displayName(role)}, ${role.title}`,
+    description: role.summary,
     path: `/work/${role.slug}`,
   });
 }
 
-/** A single settlement line, opened out. */
-export default async function WorkPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const role = roles.find(r => r.slug === slug);
+export default async function WorkPage({ params }: Props) {
+  const role = roleBySlug((await params).slug);
   if (!role) notFound();
+  const next = nextRole(role);
+  const shots = availableShots(role);
+  const stores = storeGroups(role);
 
-  const concurrent = (concurrencyMap().get(role.slug) ?? [])
-    .map(s => roles.find(r => r.slug === s))
-    .filter((r): r is NonNullable<typeof r> => Boolean(r));
+  const facts = [
+    { term: "Role", value: role.title },
+    { term: "Company", value: role.context ? `${role.company}, ${role.context}` : role.company },
+    { term: "Period", value: formatPeriod(role) },
+    { term: "Duration", value: formatDuration(role) },
+    ...(role.sector ? [{ term: "Sector", value: role.sector }] : []),
+    ...(role.terms ? [{ term: "Terms", value: role.terms }] : []),
+  ];
 
   return (
-    <article className="mx-auto max-w-ledger px-r2 py-r5 md:px-r4">
-      <p className="tnum font-mono text-micro text-void">
-        {role.dateLabel} / {role.sector.toLowerCase()}
-      </p>
+    <>
+      <article className="page pb-20 pt-10 lg:pb-28 lg:pt-14" data-compose-topic={displayName(role)}>
+        <Link
+          href="/#work"
+          className="group inline-flex items-center gap-2 font-mono text-label text-muted transition-colors hover:text-fg"
+        >
+          <ArrowLeft
+            aria-hidden
+            strokeWidth={1.75}
+            className="size-3.5 transition-transform group-hover:-translate-x-0.5"
+          />
+          All work
+        </Link>
 
-      <h1 className="mt-r2 max-w-[18ch] text-title font-light">{role.company}</h1>
-      <p className="mt-r1 font-mono text-micro text-void">
-        {role.title}
-        {role.companyNote ? `, ${role.companyNote}` : ""}
-      </p>
+        <header className="mt-10 grid gap-10 lg:mt-14 lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-7">
+            <h1 className="rise text-display font-normal">{displayName(role)}</h1>
+            <p className="rise mt-6 max-w-[46ch] text-lead text-muted" style={{ "--i": 1 } as React.CSSProperties}>
+              {role.summary}
+            </p>
+            <div className="rise" style={{ "--i": 2 } as React.CSSProperties}>
+              <StoreLinks groups={stores} className="mt-8" />
+            </div>
+          </div>
+          <dl
+            className="rise grid grid-cols-2 gap-x-6 gap-y-5 self-end lg:col-span-4 lg:col-start-9"
+            style={{ "--i": 2 } as React.CSSProperties}
+          >
+            {facts.map(fact => (
+              <div key={fact.term}>
+                <dt className="label">{fact.term}</dt>
+                <dd className="mt-1 text-small">{fact.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </header>
 
-      <div className="mt-r4 grid gap-r4 border-t border-rule pt-r4 md:grid-cols-[minmax(0,1fr)_11rem] md:gap-r5">
-        <div className="max-w-measure">
-          <Field label="the problem">{role.problem}</Field>
-          <Field label="my role">{role.myRole}</Field>
+        <WorkCover
+          role={role}
+          size="hero"
+          shot={shots[0]}
+          className="rise mt-12 h-[22rem] sm:h-[28rem] lg:mt-16 lg:h-[34rem]"
+        />
 
-          {role.constraints.length > 0 ? (
-            <section className="mt-r4">
-              <h2 className="font-mono text-micro text-void">constraints</h2>
-              <ul className="mt-r2 space-y-r1">
-                {role.constraints.map(c => (
-                  <li key={c} className="border-l border-rule pl-r2 text-body">
-                    {c}
+        {shots.length > 1 && (
+          <section aria-labelledby="screens" className="mt-16 lg:mt-24">
+            <h2 id="screens" data-reveal className="text-h3 font-normal">
+              Screens
+            </h2>
+            <div
+              role="region"
+              aria-label="Screenshots, scroll sideways for more"
+              tabIndex={0}
+              className="-mx-5 mt-8 overflow-x-auto px-5 pb-4 [scrollbar-width:thin] sm:-mx-8 sm:px-8 lg:mx-0 lg:px-0"
+            >
+              <ul className="flex snap-x snap-mandatory gap-5 lg:gap-8">
+                {shots.map((shot, i) => (
+                  <li
+                    key={shot.src}
+                    data-reveal
+                    style={{ "--i": i % 4 } as React.CSSProperties}
+                    className="w-[14rem] shrink-0 snap-start sm:w-[16rem]"
+                  >
+                    <figure>
+                      <PhoneShot shot={shot} sizes="16rem" />
+                      {shot.caption && <figcaption className="mt-3 text-small text-muted">{shot.caption}</figcaption>}
+                    </figure>
                   </li>
                 ))}
               </ul>
-            </section>
-          ) : (
-            <section className="mt-r4">
-              <h2 className="font-mono text-micro text-void">constraints</h2>
-              <p className="mt-r2 font-mono text-micro tracking-[0.06em] text-void">not disclosed</p>
-            </section>
-          )}
+            </div>
+          </section>
+        )}
 
-          <section className="mt-r4">
-            <h2 className="font-mono text-micro text-void">decisions and their cost</h2>
-            <ol className="mt-r2">
-              {role.decisions.map(d => (
-                <li key={d.decision} className="border-b border-rule py-r2 last:border-b-0">
-                  <p className="text-body">{d.decision}</p>
-                  {d.tradeoff ? (
-                    <p className="mt-r1 max-w-measure text-small text-void">{d.tradeoff}</p>
-                  ) : (
-                    <p className="mt-r1 flex items-center gap-r1 font-mono text-[0.6875rem] tracking-[0.06em] text-void">
-                      <span aria-hidden className="inline-block h-px w-8 bg-void" />
-                      tradeoff not disclosed
-                    </p>
-                  )}
+        <div className="mt-16 grid gap-12 lg:mt-24 lg:grid-cols-12 lg:gap-8">
+          <aside className="lg:col-span-4">
+            <div className="grid gap-10 lg:sticky lg:top-28">
+              {role.metric ? (
+                <div data-reveal>
+                  <p className="text-figure font-normal text-accent">{role.metric.value}</p>
+                  <p className="mt-3 max-w-[26ch] text-small text-muted">{role.metric.label}</p>
+                </div>
+              ) : null}
+              <div data-reveal>
+                <h2 className="label">Stack</h2>
+                <ul className="mt-3 flex flex-wrap gap-2">
+                  {role.stack.map(item => (
+                    <li key={item} className="rounded-full border border-line px-3 py-1.5 text-small text-muted">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </aside>
+
+          <section className="lg:col-span-7 lg:col-start-6">
+            <h2 data-reveal className="text-h3 font-normal">
+              What I did
+            </h2>
+            <ol className="mt-8 border-b border-line">
+              {role.highlights.map((highlight, i) => (
+                <li key={highlight} data-reveal className="grid grid-cols-[2.5rem_1fr] gap-4 border-t border-line py-5">
+                  <span className="pt-1 font-mono text-label text-subtle">{String(i + 1).padStart(2, "0")}</span>
+                  <p className="text-body">{highlight}</p>
                 </li>
               ))}
             </ol>
           </section>
-
-          {role.sourceNote ? (
-            <aside className="mt-r4 border-l-2 border-stamp pl-r2">
-              <h2 className="font-mono text-micro text-stamp">on the source</h2>
-              <p className="mt-r1 text-small text-void">{role.sourceNote}</p>
-            </aside>
-          ) : null}
         </div>
 
-        <aside className="space-y-r4">
+        <Link
+          href={`/work/${next.slug}`}
+          data-reveal
+          className={cn(
+            "cover group mt-20 flex items-end justify-between gap-6 rounded-card p-6 sm:p-8 lg:mt-28",
+            toneClass[next.tone],
+            next.tone === "ink" && "ring-1 ring-inset ring-line",
+          )}
+        >
           <div>
-            <h2 className="mb-r2 font-mono text-micro text-void">outcome</h2>
-            {role.outcome.kind === "measured" ? (
-              <Figure value={role.outcome.value} metric={role.outcome.metric} />
-            ) : (
-              <StruckRule />
-            )}
+            <p className="font-mono text-label opacity-80">Next</p>
+            <p className="mt-2 text-h2 font-normal">{displayName(next)}</p>
+            <p className="mt-1 text-small opacity-80">{next.title}</p>
           </div>
-
-          {role.reach ? (
-            <div className="text-right">
-              <h2 className="mb-r1 font-mono text-micro text-void">reach</h2>
-              <p className="tnum text-section">{role.reach.value}</p>
-              <p className="mt-r1 font-mono text-[0.6875rem] leading-snug text-void">{role.reach.metric}</p>
-            </div>
-          ) : null}
-
-          <div className="text-right">
-            <h2 className="mb-r2 font-mono text-micro text-void">stack</h2>
-            <ul className="space-y-r1 font-mono text-[0.6875rem] text-ink">
-              {role.stack.map(s => (
-                <li key={s}>{s}</li>
-              ))}
-            </ul>
-          </div>
-
-          {role.claims.length > 0 ? (
-            <div className="text-right">
-              <h2 className="mb-r2 font-mono text-micro text-void">evidence for</h2>
-              <ul className="space-y-r1 text-small">
-                {role.claims.map(id => (
-                  <li key={id} className="text-void">
-                    {claims.find(c => c.id === id)?.statement}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
-
-          {concurrent.length > 0 ? (
-            <div className="text-right">
-              <h2 className="mb-r2 font-mono text-micro text-void">ran alongside</h2>
-              <ul className="space-y-r1 font-mono text-[0.6875rem]">
-                {concurrent.map(r => (
-                  <li key={r.slug}>
-                    <Link
-                      href={`/work/${r.slug}`}
-                      className="text-void underline-offset-4 hover:text-ink hover:underline"
-                    >
-                      {r.company}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
-        </aside>
-      </div>
-
-      <Link
-        href="/"
-        className="mt-r5 inline-block border-t border-rule pt-r2 font-mono text-micro text-void underline-offset-4 hover:text-ink hover:underline"
-      >
-        back to the record
-      </Link>
-    </article>
+          <span className="grid size-12 shrink-0 place-items-center rounded-full [border:1px_solid_rgb(var(--tone-fg)/0.35)] transition-transform duration-300 ease-out group-hover:translate-x-1">
+            <ArrowRight aria-hidden strokeWidth={1.75} className="size-5" />
+          </span>
+        </Link>
+      </article>
+      <Contact />
+    </>
   );
 }
-
-const Field = ({ label, children }: { label: string; children: React.ReactNode }) => (
-  <section className="mt-r4 first:mt-0">
-    <h2 className="font-mono text-micro text-void">{label}</h2>
-    <p className="mt-r2 text-lead">{children}</p>
-  </section>
-);

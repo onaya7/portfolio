@@ -2,148 +2,193 @@
 @tailwind components;
 @tailwind utilities;
 
-/**
- * Design tokens. Space-separated RGB channels so Tailwind opacity modifiers work.
- * Every colour on the site resolves here. Contrast against both surfaces is verified for
- * `ink`, `stamp` and `void` in light and dark; the lowest pair is 4.71:1.
+/*
+ * Tokens as space-separated RGB channels. Dark is the default and the no-JavaScript state;
+ * light is opt-in through the toggle, which sets data-theme on <html> before first paint.
  *
- * `rule` sits deliberately below 3:1. It is a decorative separator only. Anything carrying
- * meaning (the struck rule marking an undisclosed outcome) or bounding a control uses `void`.
+ * Contrast (WCAG): fg, muted and subtle clear 4.5:1 on bg and surface in both themes. accent
+ * clears 4.5:1 as text on bg, and accent-ink clears it on accent. line is decorative only.
  */
-:root {
-  --paper: 246 242 233;
-  --paper-100: 239 234 222;
-  --ink: 26 23 20;
-  --rule: 201 191 174;
-  --stamp: 183 52 42;
-  --void: 110 102 90;
-  color-scheme: light;
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: 12 12 11;
+  --surface: 21 21 20;
+  --raised: 30 30 28;
+  --line: 40 40 37;
+  --line-strong: 64 64 60;
+  --fg: 242 240 235;
+  --muted: 166 163 156;
+  --subtle: 130 127 121;
+  --accent: 240 132 92;
+  --accent-ink: 22 12 8;
+
+  --tone-moss-bg: 29 41 33;
+  --tone-moss-fg: 206 230 204;
+  --tone-slate-bg: 27 33 45;
+  --tone-slate-fg: 204 218 242;
+  --tone-clay-bg: 52 35 28;
+  --tone-clay-fg: 246 212 192;
+  --tone-bone-bg: 229 224 213;
+  --tone-bone-fg: 26 25 22;
+  --tone-ink-bg: 21 21 20;
+  --tone-ink-fg: 240 132 92;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: 22 19 15;
-    --paper-100: 30 26 21;
-    --ink: 239 233 220;
-    --rule: 58 52 43;
-    --stamp: 228 96 79;
-    --void: 154 144 131;
-    color-scheme: dark;
-  }
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: 245 245 243;
+  --surface: 236 236 233;
+  --raised: 227 227 223;
+  --line: 219 219 214;
+  --line-strong: 188 188 182;
+  --fg: 18 18 17;
+  --muted: 82 81 77;
+  --subtle: 106 105 100;
+  --accent: 174 64 26;
+  --accent-ink: 255 250 246;
+
+  --tone-moss-bg: 218 229 214;
+  --tone-moss-fg: 28 50 34;
+  --tone-slate-bg: 217 224 236;
+  --tone-slate-fg: 26 38 60;
+  --tone-clay-bg: 240 222 209;
+  --tone-clay-fg: 78 38 20;
+  --tone-bone-bg: 28 28 26;
+  --tone-bone-fg: 236 232 222;
+  --tone-ink-bg: 18 18 17;
+  --tone-ink-fg: 242 138 98;
 }
 
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
   }
 
   body {
-    @apply bg-paper font-serif text-body text-ink antialiased;
-  }
-
-  h1,
-  h2,
-  h3 {
-    @apply font-normal text-ink;
-    text-wrap: balance;
-  }
-
-  p {
-    text-wrap: pretty;
-  }
-
-  /* The art direction's focus ring, not the browser default. Never animated. */
-  :focus-visible {
-    outline: 2px solid rgb(var(--stamp));
-    outline-offset: 3px;
+    @apply bg-bg font-sans text-body text-fg antialiased;
+    font-feature-settings: "ss01", "cv11";
   }
 
   ::selection {
-    background: rgb(var(--stamp) / 0.18);
+    background: rgb(var(--accent) / 0.3);
   }
-}
 
-@layer utilities {
-  /* Ledger figures are lining and tabular so columns align and digits never reflow. */
-  .tnum {
-    font-variant-numeric: tabular-nums lining-nums;
+  /* Keyboard focus is instant: no transition on the ring. */
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 3px;
+    border-radius: 4px;
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 }
 
 @layer components {
-  /**
-   * Figures column. The resting transform is the final value: no JavaScript, no observer, or
-   * reduced motion all render the correct figure. `Reconcile` adds the start state and
-   * animates back to this.
-   */
-  .digit {
-    display: inline-block;
-    height: 1em;
-    overflow: hidden;
-    line-height: 1;
+  .page {
+    @apply mx-auto w-full max-w-page px-5 sm:px-8 lg:px-12;
   }
 
-  .digit-track {
-    display: block;
-    transform: translateY(calc((10 + var(--d)) * -1em));
+  .label {
+    @apply font-mono text-label text-subtle;
   }
 
-  .digit-track > span {
-    display: block;
-    height: 1em;
-    line-height: 1;
+  .tone-moss {
+    --tone-bg: var(--tone-moss-bg);
+    --tone-fg: var(--tone-moss-fg);
+  }
+  .tone-slate {
+    --tone-bg: var(--tone-slate-bg);
+    --tone-fg: var(--tone-slate-fg);
+  }
+  .tone-clay {
+    --tone-bg: var(--tone-clay-bg);
+    --tone-fg: var(--tone-clay-fg);
+  }
+  .tone-bone {
+    --tone-bg: var(--tone-bone-bg);
+    --tone-fg: var(--tone-bone-fg);
+  }
+  .tone-ink {
+    --tone-bg: var(--tone-ink-bg);
+    --tone-fg: var(--tone-ink-fg);
+  }
+  .cover {
+    background: rgb(var(--tone-bg));
+    color: rgb(var(--tone-fg));
   }
 }
 
-@layer components {
-  /**
-   * Reconciliation, the signature interaction.
-   *
-   * These rules exist only under `.js-motion`, which the head script adds before first paint
-   * and only when IntersectionObserver is present and reduced motion is not requested. The
-   * resting styles above remain the truth for every other case.
-   *
-   * Transform and opacity only. Per element the longest is 380ms; the stagger is what carries
-   * the sequence past that.
-   */
-  .js-motion .reconcile .digit-track {
-    transform: translateY(0);
+/*
+ * Motion.
+ *
+ * Hero lines rise once on load. Sections below reveal once as they enter the viewport. Both
+ * only move transform and opacity, and both start from the resting state unless motion is
+ * allowed, so reduced motion and no JavaScript show everything in place.
+ */
+@keyframes rise {
+  from {
+    /* 0.01, not 0: Chrome skips fully transparent elements as LCP candidates. */
+    opacity: 0.01;
+    transform: translateY(18px);
   }
-
-  .js-motion .reconcile .strike {
-    transform: scaleX(0);
+  to {
+    opacity: 1;
+    transform: none;
   }
+}
 
-  .js-motion .reconcile .strike-label {
+@keyframes compose-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes backdrop-in {
+  from {
     opacity: 0;
   }
+}
 
-  .js-motion .reconcile.is-running .digit-track {
-    transform: translateY(calc((10 + var(--d)) * -1em));
-    transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1);
-    transition-delay: calc(var(--row) * 70ms);
+@media (prefers-reduced-motion: no-preference) {
+  /* The compose dialog opens in 200ms; closing is instant. */
+  .compose[open] {
+    animation: compose-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .compose[open]::backdrop {
+    animation: backdrop-in 200ms ease-out;
   }
 
-  .js-motion .reconcile.is-running .strike {
-    transform: scaleX(1);
-    transition: transform 260ms cubic-bezier(0.65, 0, 0.35, 1);
-    transition-delay: calc(var(--row) * 70ms);
+  .rise {
+    animation: rise 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--i, 0) * 70ms);
   }
 
-  .js-motion .reconcile.is-running .strike-label {
+  /* Fully transparent, unlike .rise: nothing revealed on scroll is an LCP candidate, and
+     contrast audits skip opacity 0 but fail 0.01. */
+  .js-reveal [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(var(--i, 0) * 60ms);
+  }
+
+  .js-reveal [data-reveal].is-in {
     opacity: 1;
-    transition: opacity 160ms linear;
-    transition-delay: calc(var(--row) * 70ms + 140ms);
+    transform: none;
   }
 }
