@@ -58,7 +58,10 @@ export const timeline: Role[] = [...roles].sort((a, b) => {
   return endB - endA;
 });
 
-export const featured = timeline.filter(role => role.featured);
+/** Selected work, in the position each role sets, not timeline order. */
+export const featured = roles
+  .filter((role): role is Role & { featured: number } => role.featured !== undefined)
+  .sort((a, b) => a.featured - b.featured);
 export const alsoShipped = timeline.filter(role => !role.featured);
 export const current = timeline.find(role => role.end === null) ?? null;
 
