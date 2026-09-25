@@ -70,8 +70,11 @@ export type Role = {
   tone: Tone;
   /** Short labels printed on the cover. */
   tags: string[];
-  /** Featured roles get a large cover on the home page. */
-  featured?: boolean;
+  /**
+   * Position in Selected work on the home page, starting at 1. Roles without it are not
+   * featured. Set explicitly: the order is an editorial choice, not the timeline's.
+   */
+  featured?: number;
   /** Download links. Fill in when the listing is public. */
   stores: Stores;
   /** Further apps on the same role, each with its own store buttons. */

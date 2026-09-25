@@ -47,7 +47,7 @@ export const roles: Role[] = [
     shots: [],
     tone: "ink",
     tags: ["Swift", "SwiftUI", "Biometrics"],
-    featured: true,
+    featured: 1,
   },
   {
     slug: "firstbank-ghana",
@@ -79,7 +79,7 @@ export const roles: Role[] = [
     shots: [],
     tone: "moss",
     tags: ["Flutter", "PAPSS", "TOTP 2FA", "Offline-first"],
-    featured: true,
+    featured: 2,
   },
   {
     slug: "ojanow",
@@ -106,7 +106,7 @@ export const roles: Role[] = [
     shots: [],
     tone: "clay",
     tags: ["Flutter", "Q-commerce", "On-demand delivery"],
-    featured: true,
+    featured: 3,
   },
   {
     slug: "ngss",
@@ -130,7 +130,7 @@ export const roles: Role[] = [
     shots: [],
     tone: "slate",
     tags: ["Flutter", "KYC", "Identity"],
-    featured: true,
+    featured: 4,
   },
   {
     slug: "citigo",

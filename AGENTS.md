@@ -94,7 +94,8 @@ is set up. Without JavaScript, or on a modifier-click, the links stay plain mail
   case-study page and its generated Open Graph image.
 - `src/lib/metadata.ts` - `pageMetadata()`. Next *replaces* a nested `openGraph` rather than
   merging, so every page builds a complete object.
-- Featured roles (`featured: true`) get large covers in Selected work; the grid alternates 7/5
+- Featured roles (`featured: <position>`, currently Mintyn 1, FirstBank Ghana 2, OjaNow 3, NGSS 4)
+  get large covers in Selected work, in that order; the grid alternates 7/5
   and 5/7 column spans. The first figure is the resume's tenure claim; the other three are the
   newest roles with a `metric`.
 
