@@ -105,7 +105,8 @@ export const roles: Role[] = [
     },
     shots: [],
     tone: "clay",
-    tags: ["Flutter", "Q-commerce"],
+    tags: ["Flutter", "Q-commerce", "On-demand delivery"],
+    featured: true,
   },
   {
     slug: "ngss",
@@ -152,7 +153,6 @@ export const roles: Role[] = [
     shots: [],
     tone: "bone",
     tags: ["Flutter", "Maps", "Real-time"],
-    featured: true,
   },
   {
     slug: "myaza",
