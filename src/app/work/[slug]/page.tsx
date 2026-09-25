@@ -1,11 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { roles } from "@/content/roles";
+import { availableShots, storeLinks } from "@/lib/media";
 import { pageMetadata } from "@/lib/metadata";
 import { cn } from "@/lib/utils";
 import { displayName, formatDuration, formatPeriod, nextRole, roleBySlug } from "@/lib/work";
 import Contact from "@/components/Contact";
+import PhoneShot from "@/components/PhoneShot";
+import StoreLinks from "@/components/StoreLinks";
 import WorkCover, { toneClass } from "@/components/WorkCover";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -30,6 +33,8 @@ export default async function WorkPage({ params }: Props) {
   const role = roleBySlug((await params).slug);
   if (!role) notFound();
   const next = nextRole(role);
+  const shots = availableShots(role);
+  const stores = storeLinks(role);
 
   const facts = [
     { term: "Role", value: role.title },
@@ -61,6 +66,9 @@ export default async function WorkPage({ params }: Props) {
             <p className="rise mt-6 max-w-[46ch] text-lead text-muted" style={{ "--i": 1 } as React.CSSProperties}>
               {role.summary}
             </p>
+            <div className="rise" style={{ "--i": 2 } as React.CSSProperties}>
+              <StoreLinks links={stores} className="mt-8" />
+            </div>
           </div>
           <dl
             className="rise grid grid-cols-2 gap-x-6 gap-y-5 self-end lg:col-span-4 lg:col-start-9"
@@ -75,7 +83,42 @@ export default async function WorkPage({ params }: Props) {
           </dl>
         </header>
 
-        <WorkCover role={role} size="hero" className="rise mt-12 h-[22rem] sm:h-[28rem] lg:mt-16 lg:h-[34rem]" />
+        <WorkCover
+          role={role}
+          size="hero"
+          shot={shots[0]}
+          className="rise mt-12 h-[22rem] sm:h-[28rem] lg:mt-16 lg:h-[34rem]"
+        />
+
+        {shots.length > 1 && (
+          <section aria-labelledby="screens" className="mt-16 lg:mt-24">
+            <h2 id="screens" data-reveal className="text-h3 font-normal">
+              Screens
+            </h2>
+            <div
+              role="region"
+              aria-label="Screenshots, scroll sideways for more"
+              tabIndex={0}
+              className="-mx-5 mt-8 overflow-x-auto px-5 pb-4 [scrollbar-width:thin] sm:-mx-8 sm:px-8 lg:mx-0 lg:px-0"
+            >
+              <ul className="flex snap-x snap-mandatory gap-5 lg:gap-8">
+                {shots.map((shot, i) => (
+                  <li
+                    key={shot.src}
+                    data-reveal
+                    style={{ "--i": i % 4 } as React.CSSProperties}
+                    className="w-[14rem] shrink-0 snap-start sm:w-[16rem]"
+                  >
+                    <figure>
+                      <PhoneShot shot={shot} sizes="16rem" />
+                      {shot.caption && <figcaption className="mt-3 text-small text-muted">{shot.caption}</figcaption>}
+                    </figure>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
 
         <div className="mt-16 grid gap-12 lg:mt-24 lg:grid-cols-12 lg:gap-8">
           <aside className="lg:col-span-4">
@@ -96,21 +139,6 @@ export default async function WorkPage({ params }: Props) {
                   ))}
                 </ul>
               </div>
-              {role.links?.length ? (
-                <div data-reveal>
-                  <h2 className="label">Links</h2>
-                  <ul className="mt-3 grid gap-2">
-                    {role.links.map(link => (
-                      <li key={link.href}>
-                        <a href={link.href} className="inline-flex items-center gap-1.5 text-small hover:text-accent">
-                          {link.label}
-                          <ArrowUpRight aria-hidden strokeWidth={1.75} className="size-3.5" />
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
             </div>
           </aside>
 

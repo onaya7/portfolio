@@ -15,6 +15,32 @@ export type Tone = "moss" | "slate" | "clay" | "bone" | "ink";
  */
 export type Metric = { value: string; label: string };
 
+/**
+ * Where the app can be downloaded. `null` until a real, public listing URL exists; the page shows
+ * a store button only for the ones that are set.
+ */
+export type Stores = {
+  /** https://apps.apple.com/... */
+  appStore: string | null;
+  /** https://play.google.com/store/apps/details?id=... */
+  googlePlay: string | null;
+  /** A product website, if there is one. */
+  web?: string | null;
+};
+
+/**
+ * One app screenshot. Put the file in `public/work/<slug>/` and reference it from the site root,
+ * e.g. `/work/firstbank-ghana/home.png`. Portrait phone captures (about 9:19.5, such as
+ * 1170x2532) fit the frame without cropping. Only add screenshots you have permission to show.
+ */
+export type Screenshot = {
+  src: `/work/${string}`;
+  /** What the screen shows, for screen readers, e.g. "Transfer confirmation with PAPSS". */
+  alt: string;
+  /** Optional caption under the frame. */
+  caption?: string;
+};
+
 export type Role = {
   slug: string;
   company: string;
@@ -41,6 +67,11 @@ export type Role = {
   tags: string[];
   /** Featured roles get a large cover on the home page. */
   featured?: boolean;
-  /** Store links. Leave undefined until a real URL exists; never add a placeholder. */
-  links?: { label: string; href: string }[];
+  /** Download links. Fill in when the listing is public. */
+  stores: Stores;
+  /**
+   * Screenshots, in the order they should appear. The first one also appears on the home-page
+   * cover. A file that does not exist on disk is skipped, so a typo never renders a broken image.
+   */
+  shots: Screenshot[];
 };

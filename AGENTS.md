@@ -32,8 +32,23 @@ stack grid).
 
 **Every claim and every number comes from the resume.** Do not invent a metric, a sector, a
 tool, a store link or a screenshot. Where the resume is silent, the type says so: `sector` is
-nullable, `metric` and `links` are optional, and `profiles[].href` is null until supplied. The
-renderer omits what is missing; it never fills it.
+nullable, `metric` is optional, and `profiles[].href` is null until supplied. The renderer omits
+what is missing; it never fills it.
+
+## Screenshots and store links
+
+Every role carries two slots in `src/content/roles.ts`, empty until Samuel supplies real ones:
+
+- `stores: { appStore, googlePlay, web? }` - public listing URLs, or `null`. Set ones render as
+  buttons under the summary on the work page, with the stores' own wording.
+- `shots: Screenshot[]` - `{ src, alt, caption? }`. Files go in `public/work/<slug>/` (folders
+  exist with a `.gitkeep`) and `src` is root-relative, e.g. `/work/mintyn/home.png`. Portrait
+  phone captures at about 9:19.5 fit the frame uncropped.
+
+The first screenshot rises out of the home-page cover and the work-page cover; two or more add a
+scrollable "Screens" gallery. `lib/media.ts` drops any `src` whose file is missing (with a dev
+warning), so a typo never ships a broken image. Never add a placeholder URL or image; an empty
+slot is the correct state.
 
 ## Architecture
 
@@ -43,6 +58,7 @@ library, no component library. Everything is a server component except three cli
 
 - `src/content/` - typed content: `roles.ts` (all nine roles), `profile.ts` (identity, contact,
   education, certificates), `stack.ts`, `approach.ts`.
+- `src/lib/media.ts` - screenshot existence checks and store-link labels (server only).
 - `src/lib/work.ts` - everything derived from the roles: timeline order, featured split, current
   role, measured figures, periods and durations, next-role links. **Never hand-maintain anything
   derivable**; add a role and the home page, work pages, figures, OG images and sitemap follow.
@@ -67,7 +83,8 @@ library, no component library. Everything is a server component except three cli
 - **Contrast**: `fg`, `muted`, `subtle` and `accent` clear 4.5:1 on `bg` and `surface` in both
   themes; cover labels sit at 80% opacity, the lowest that still clears 4.5:1 on every tone.
   Re-check if you change a token.
-- **Shape**: controls are full pills; surfaces use the 1.25rem `rounded-card`. Nothing else.
+- **Shape**: controls are full pills; surfaces use the 1.25rem `rounded-card`. The one exception
+  is `PhoneShot`, whose 2rem radius matches a phone's corners.
 - **Banned**: em-dashes and en-dashes anywhere in copy (use a hyphen), an eyebrow label above
   section headings, decorative status dots, placeholder images or URLs, glassmorphism beyond
   the header's blur, purple-blue gradients.
@@ -93,8 +110,8 @@ SEO 100, CLS 0, on `/` and work pages. Hold these.
 
 ## Open items, needing Samuel rather than code
 
-- A headshot, and App Store / Play Store URLs with permitted screenshots. `Role.links` renders
-  when set. The typographic covers stand in until real images exist; never add a placeholder.
+- A headshot, and App Store / Play Store URLs with permitted screenshots, into the `stores` and
+  `shots` slots on each role. The typographic covers carry the page until then.
 - LinkedIn and GitHub URLs (`profiles` in `src/content/profile.ts`, currently null).
 - Certificate URLs behind the resume's "view" links (`certifications[].href`).
 - Sectors for Uobis and David Consult, which the resume does not state.

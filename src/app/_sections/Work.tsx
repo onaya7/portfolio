@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { availableShots } from "@/lib/media";
 import { cn } from "@/lib/utils";
 import { displayName, featured, formatYears } from "@/lib/work";
 import WorkCover from "@/components/WorkCover";
@@ -26,7 +27,7 @@ export default function Work() {
             className={cn(spans[i % spans.length])}
           >
             <Link href={`/work/${role.slug}`} className="group block">
-              <WorkCover role={role} className="h-[19rem] sm:h-[23rem] lg:h-[27rem]" />
+              <WorkCover role={role} shot={availableShots(role)[0]} className="h-[19rem] sm:h-[23rem] lg:h-[27rem]" />
               <div className="mt-5 flex items-start justify-between gap-6">
                 <div>
                   <h3 className="text-h3 font-medium">{displayName(role)}</h3>

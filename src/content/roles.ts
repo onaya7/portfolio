@@ -5,6 +5,19 @@ import type { Role } from "./types";
  *
  * Highlights restate the resume's bullets with the adjectives taken out. Figures appear only
  * where the resume states them, as `metric`. If a claim is not on the resume it does not go here.
+ *
+ * Store links and screenshots are slots on every role. To fill one in:
+ *
+ *   stores: {
+ *     appStore: "https://apps.apple.com/ng/app/...",
+ *     googlePlay: "https://play.google.com/store/apps/details?id=...",
+ *   },
+ *   shots: [
+ *     { src: "/work/firstbank-ghana/home.png", alt: "Home screen with account balances" },
+ *     { src: "/work/firstbank-ghana/transfer.png", alt: "PAPSS cross-border transfer", caption: "PAPSS transfer" },
+ *   ],
+ *
+ * Image files go in `public/work/<slug>/`. Leave a slot as null or [] and the page omits it.
  */
 export const roles: Role[] = [
   {
@@ -24,6 +37,8 @@ export const roles: Role[] = [
       "Mentor junior engineers on Swift and SwiftUI state management.",
     ],
     stack: ["Swift", "SwiftUI", "Biometrics"],
+    stores: { appStore: null, googlePlay: null },
+    shots: [],
     tone: "ink",
     tags: ["Swift", "SwiftUI", "Biometrics"],
     featured: true,
@@ -50,6 +65,8 @@ export const roles: Role[] = [
     ],
     stack: ["Flutter", "Hive", "flutter_secure_storage", "PAPSS", ".NET Core", "Temenos T24"],
     metric: { value: "100%", label: "adoption of the soft-token 2FA in the pilot phase" },
+    stores: { appStore: null, googlePlay: null },
+    shots: [],
     tone: "moss",
     tags: ["Flutter", "PAPSS", "TOTP 2FA", "Offline-first"],
     featured: true,
@@ -71,6 +88,8 @@ export const roles: Role[] = [
       "Brought AI-assisted development (GitHub Copilot, ChatGPT) into the team's workflow.",
     ],
     stack: ["Flutter"],
+    stores: { appStore: null, googlePlay: null },
+    shots: [],
     tone: "clay",
     tags: ["Flutter", "Q-commerce"],
   },
@@ -92,6 +111,8 @@ export const roles: Role[] = [
     ],
     stack: ["Flutter"],
     metric: { value: "200M+", label: "identities covered by the verification APIs integrated" },
+    stores: { appStore: null, googlePlay: null },
+    shots: [],
     tone: "slate",
     tags: ["Flutter", "KYC", "Identity"],
     featured: true,
@@ -113,6 +134,8 @@ export const roles: Role[] = [
     ],
     stack: ["Flutter", "Mapping APIs"],
     metric: { value: "20%", label: "decrease in user wait times from better matching" },
+    stores: { appStore: null, googlePlay: null },
+    shots: [],
     tone: "bone",
     tags: ["Flutter", "Maps", "Real-time"],
     featured: true,
@@ -134,6 +157,8 @@ export const roles: Role[] = [
     ],
     stack: ["Flutter", "Payment gateways"],
     metric: { value: "15%", label: "faster transaction processing" },
+    stores: { appStore: null, googlePlay: null },
+    shots: [],
     tone: "moss",
     tags: ["Flutter", "Payments"],
   },
@@ -154,6 +179,8 @@ export const roles: Role[] = [
       "Improved data fetching for faster loading.",
     ],
     stack: ["Flutter"],
+    stores: { appStore: null, googlePlay: null },
+    shots: [],
     tone: "clay",
     tags: ["Flutter", "Healthtech"],
   },
@@ -172,6 +199,8 @@ export const roles: Role[] = [
       "Organised internal knowledge-sharing sessions on Flutter.",
     ],
     stack: ["Flutter"],
+    stores: { appStore: null, googlePlay: null },
+    shots: [],
     tone: "slate",
     tags: ["Flutter", "Mentoring"],
   },
@@ -194,6 +223,8 @@ export const roles: Role[] = [
     ],
     stack: ["Flutter"],
     metric: { value: "30%", label: "reduction in app loading times" },
+    stores: { appStore: null, googlePlay: null },
+    shots: [],
     tone: "bone",
     tags: ["Flutter"],
   },
