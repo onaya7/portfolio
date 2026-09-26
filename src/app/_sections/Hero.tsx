@@ -3,11 +3,8 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { portrait } from "@/content/portrait";
 import { contact } from "@/content/profile";
-import { alsoNow, current, displayName, formatMonth, previous } from "@/lib/work";
+import { alsoNow, current, displayName, formatMonth } from "@/lib/work";
 import Button from "@/components/Button";
-
-/** The four roles before the current one, named as a quiet track record. */
-const before = previous.slice(0, 4);
 
 export default function Hero() {
   return (
@@ -33,18 +30,6 @@ export default function Hero() {
             <Button href={`mailto:${contact.email}`} variant="secondary">
               Email me
             </Button>
-          </div>
-          <div className="mt-10 flex flex-wrap items-baseline gap-x-5 gap-y-2">
-            <span className="label">Before that</span>
-            {before.map(role => (
-              <Link
-                key={role.slug}
-                href={`/work/${role.slug}`}
-                className="text-small text-muted underline-offset-4 transition-colors hover:text-fg hover:underline"
-              >
-                {displayName(role)}
-              </Link>
-            ))}
           </div>
         </div>
       </div>

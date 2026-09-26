@@ -94,8 +94,7 @@ is set up. Without JavaScript, or on a modifier-click, the links stay plain mail
 - `src/content/` - typed content: `roles.ts` (every role), `profile.ts` (identity, contact,
   education, certificates), `stack.ts`, `approach.ts`, `backend.ts` (the Backend section).
 - Two roles are ongoing (Mintyn and Astravest). The one marked `hero: true` (Mintyn) fills the
-  hero's "Now" card; the others are listed under it as "Also now". `previous` ("Before that")
-  counts back from the hero role's start.
+  hero's "Now" card; the others are listed under it as "Also now".
 - `src/lib/media.ts` - screenshot existence checks and store-link labels (server only).
 - `src/lib/work.ts` - everything derived from the roles: timeline order, featured split, current
   role, measured figures, periods and durations, next-role links. **Never hand-maintain anything
