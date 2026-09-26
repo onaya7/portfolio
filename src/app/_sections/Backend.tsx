@@ -57,10 +57,6 @@ export default function Backend() {
             );
           })}
         </ul>
-
-        <p data-reveal className="mt-12 max-w-[56ch] text-small text-subtle">
-          {backend.note}
-        </p>
       </div>
     </section>
   );

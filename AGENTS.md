@@ -28,8 +28,9 @@ directly in September 2026 that the resume predates: WeTribe (Sep 2024 - Nov 202
 Bank CIB and RIB apps (10 Aug - 20 Sep 2026), both Senior Mobile Engineer, Flutter; and
 Astravest (Adastra Tech Limited), Engineering Lead on contract since 18 May 2026 and ongoing,
 across mobile (Flutter, Swift/SwiftUI, Kotlin) and backend (Go), where he led the team to
-stabilise v1 while driving v2. His backend languages were also given directly, with no public
-project to show; the Backend section says so instead of linking anything. A sibling `Samuel Ayano cv.pdf`
+stabilise v1 while driving v2. His backend languages and skills (PostgreSQL, Prisma, security,
+ORMs) were also given directly, with no public project to show, so nothing is linked. The
+ORMs, Redis and backend auth items he left as "etc" are listed in `stack.ts` for him to confirm. A sibling `Samuel Ayano cv.pdf`
 describes an unrelated back-end web career and is **dead content**; nothing from it belongs here.
 
 Visual references the design was built against: charlesarchibong.com (typographic project

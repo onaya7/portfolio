@@ -2,19 +2,20 @@ import { stack } from "@/content/stack";
 import { cn } from "@/lib/utils";
 
 /**
- * Nine groups in an uneven grid, rows of 5/7, 6/6, 4/4/4 and 6/6. Spans are keyed by group name so reordering the content
+ * Ten groups in an uneven grid, rows of 5/7, 7/5, 4/4/4 and 4/4/4. Spans are keyed by group name so reordering the content
  * does not scramble the layout; an unknown group falls back to a third of the row.
  */
 const layout: Record<string, string> = {
   Mobile: "lg:col-span-5 bg-accent text-accent-ink",
   Backend: "lg:col-span-7 cover tone-slate",
-  "Payments & security": "lg:col-span-6 cover tone-moss",
-  Architecture: "lg:col-span-6",
-  Data: "lg:col-span-4",
+  "Databases & ORMs": "lg:col-span-7",
+  Security: "lg:col-span-5 cover tone-moss",
+  Payments: "lg:col-span-4",
+  Architecture: "lg:col-span-4",
   Delivery: "lg:col-span-4",
   "Testing & monitoring": "lg:col-span-4",
-  Maps: "lg:col-span-6",
-  "AI-assisted": "lg:col-span-6",
+  Maps: "lg:col-span-4",
+  "AI-assisted": "lg:col-span-4",
 };
 
 export default function Stack() {
