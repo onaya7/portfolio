@@ -30,7 +30,9 @@ Astravest (Adastra Tech Limited), Engineering Lead on contract since 18 May 2026
 across mobile (Flutter, Swift/SwiftUI, Kotlin) and backend (Go), where he led the team to
 stabilise v1 while driving v2. His backend languages and skills (PostgreSQL, Prisma, security,
 ORMs) were also given directly, with no public project to show, so nothing is linked. The
-ORMs, Redis and backend auth items he left as "etc" are listed in `stack.ts` for him to confirm. A sibling `Samuel Ayano cv.pdf`
+ORMs, Redis and backend auth items he left as "etc" are listed in `stack.ts` for him to confirm. Security is two
+groups, mobile and backend, sharing a tinted row in the Stack grid; `stack.ts` notes which items
+he named and which were filled in. A sibling `Samuel Ayano cv.pdf`
 describes an unrelated back-end web career and is **dead content**; nothing from it belongs here.
 
 Visual references the design was built against: charlesarchibong.com (typographic project
