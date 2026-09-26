@@ -8,3 +8,6 @@ next-env.d.ts
 .claude
 .vercel
 .env*
+
+# Exported Claude conversation for this project (large, personal; never commit)
+/conversation
