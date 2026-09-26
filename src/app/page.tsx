@@ -1,8 +1,9 @@
 import { portrait } from "@/content/portrait";
 import { contact, education, profiles, site } from "@/content/profile";
-import { current } from "@/lib/work";
+import { alsoNow, current } from "@/lib/work";
 import Contact from "@/components/Contact";
 import Approach from "./_sections/Approach";
+import Backend from "./_sections/Backend";
 import Credentials from "./_sections/Credentials";
 import Experience from "./_sections/Experience";
 import Figures from "./_sections/Figures";
@@ -21,9 +22,24 @@ const personSchema = {
   email: `mailto:${contact.email}`,
   address: { "@type": "PostalAddress", addressLocality: "Lagos", addressCountry: "NG" },
   alumniOf: { "@type": "CollegeOrUniversity", name: education.school },
-  ...(current && { worksFor: { "@type": "Organization", name: current.company } }),
+  worksFor: [current, ...alsoNow].flatMap(role =>
+    role ? [{ "@type": "Organization", name: role.context ?? role.company }] : [],
+  ),
   sameAs: profiles.flatMap(profile => (profile.href ? [profile.href] : [])),
-  knowsAbout: ["Flutter", "Swift", "SwiftUI", "Kotlin", "Mobile banking", "Identity verification", "PAPSS"],
+  knowsAbout: [
+    "Mobile app development",
+    "Flutter",
+    "Swift",
+    "SwiftUI",
+    "Kotlin",
+    "Go",
+    "Python",
+    "Django",
+    "Flask",
+    "Mobile banking",
+    "Identity verification",
+    "PAPSS",
+  ],
 };
 
 export default function HomePage() {
@@ -34,6 +50,7 @@ export default function HomePage() {
       <Figures />
       <Work />
       <Approach />
+      <Backend />
       <Experience />
       <Stack />
       <Credentials />

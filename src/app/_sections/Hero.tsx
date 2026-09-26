@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { portrait } from "@/content/portrait";
 import { contact } from "@/content/profile";
-import { current, displayName, formatMonth, previous } from "@/lib/work";
+import { alsoNow, current, displayName, formatMonth, previous } from "@/lib/work";
 import Button from "@/components/Button";
 
 /** The four roles before the current one, named as a quiet track record. */
@@ -24,8 +24,9 @@ export default function Hero() {
 
         <div className="rise mt-10 lg:mt-12" style={{ "--i": 2 } as React.CSSProperties}>
           <p className="max-w-[40ch] text-lead text-muted">
-            I&apos;m Samuel Ayano, a senior mobile engineer in Lagos. Over six years in software, five-plus shipping{" "}
-            <span className="text-fg">Flutter, Swift and Kotlin</span> to production.
+            I&apos;m Samuel Ayano, a software engineer in Lagos with mobile at the core:{" "}
+            <span className="text-fg">Flutter, Swift and Kotlin</span> in production for over five years, and backend
+            services in <span className="text-fg">Go and Python</span>.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button href="/#work">See the work</Button>
@@ -81,6 +82,24 @@ export default function Hero() {
             </p>
             <p className="mt-1.5 text-small text-muted">{current.summary}</p>
           </Link>
+        )}
+
+        {alsoNow.length > 0 && (
+          <div
+            className="rise mx-3 mt-4 flex flex-wrap items-baseline gap-x-3 gap-y-1 px-5 sm:mx-4"
+            style={{ "--i": 4 } as React.CSSProperties}
+          >
+            <span className="label">Also now</span>
+            {alsoNow.map(role => (
+              <Link
+                key={role.slug}
+                href={`/work/${role.slug}`}
+                className="text-small text-muted underline-offset-4 transition-colors hover:text-fg hover:underline"
+              >
+                {role.title}, <span className="text-fg">{displayName(role)}</span>
+              </Link>
+            ))}
+          </div>
         )}
       </div>
     </section>

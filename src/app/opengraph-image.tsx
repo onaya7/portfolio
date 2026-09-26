@@ -7,9 +7,9 @@ export const contentType = "image/png";
 
 export default function Image() {
   return ogImage({
-    kicker: site.title,
+    kicker: `${site.title}, ${site.focus.toLowerCase()}`,
     title: "Mobile apps for money, identity and movement.",
-    footnote: "Flutter / Swift / Kotlin",
+    footnote: "Flutter / Swift / Kotlin / Go",
     photo: portraitDataUri(),
   });
 }

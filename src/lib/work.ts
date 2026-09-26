@@ -63,7 +63,12 @@ export const featured = roles
   .filter((role): role is Role & { featured: number } => role.featured !== undefined)
   .sort((a, b) => a.featured - b.featured);
 export const alsoShipped = timeline.filter(role => !role.featured);
-export const current = timeline.find(role => role.end === null) ?? null;
+/** The ongoing role marked `hero`, or failing that the newest ongoing one. */
+export const current =
+  roles.find(role => role.end === null && role.hero) ?? timeline.find(role => role.end === null) ?? null;
+
+/** Other ongoing roles, shown under the hero's "Now" card. */
+export const alsoNow = timeline.filter(role => role.end === null && role !== current);
 
 /**
  * Roles that had ended by the time the current one started, most recently ended first. A

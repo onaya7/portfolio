@@ -20,10 +20,16 @@ There is no test runner.
 
 ## What this site is
 
-A portfolio for Samuel Ayano, Senior Mobile Engineer. Its source of truth is
+A portfolio for Samuel Ayano, Software Engineer with mobile at the core (`site.title` and
+`site.focus`); backend (Go, Python, Django, Flask, C) is presented as range, not the headline.
+Its source of truth is
 `/Users/user/Documents/samuel cv/Samuel Ayano resume ME.pdf`, plus two contracts Samuel gave
 directly in September 2026 that the resume predates: WeTribe (Sep 2024 - Nov 2025) and Lotus
-Bank CIB and RIB apps (10 Aug - 20 Sep 2026), both Senior Mobile Engineer, Flutter. A sibling `Samuel Ayano cv.pdf`
+Bank CIB and RIB apps (10 Aug - 20 Sep 2026), both Senior Mobile Engineer, Flutter; and
+Astravest (Adastra Tech Limited), Engineering Lead on contract since 18 May 2026 and ongoing,
+across mobile (Flutter, Swift/SwiftUI, Kotlin) and backend (Go), where he led the team to
+stabilise v1 while driving v2. His backend languages were also given directly, with no public
+project to show; the Backend section says so instead of linking anything. A sibling `Samuel Ayano cv.pdf`
 describes an unrelated back-end web career and is **dead content**; nothing from it belongs here.
 
 Visual references the design was built against: charlesarchibong.com (typographic project
@@ -38,7 +44,7 @@ research at his request and are marked as a draft until he confirms them. Do not
 tool, a store link or a screenshot. Where the resume is silent, the type says so: `sector` is
 nullable and `metric` is optional. The renderer omits what is missing; it never fills it.
 
-Store links on Mintyn, FirstBank Ghana, OjaNow, MyAza, WeTribe and both Lotus Bank apps were
+Store links on Mintyn, FirstBank Ghana, OjaNow, MyAza, WeTribe, Astravest and both Lotus Bank apps were
 checked against the listings (developer name matches, September 2026). A role with more than one
 app lists the rest in `moreApps`, and each app's buttons are then labelled with its name. The
 other five roles have no verifiable listing, so
@@ -85,7 +91,10 @@ line breaks); the dialog then offers Gmail and copy-address in case no mail app
 is set up. Without JavaScript, or on a modifier-click, the links stay plain mailto links.
 
 - `src/content/` - typed content: `roles.ts` (every role), `profile.ts` (identity, contact,
-  education, certificates), `stack.ts`, `approach.ts`.
+  education, certificates), `stack.ts`, `approach.ts`, `backend.ts` (the Backend section).
+- Two roles are ongoing (Mintyn and Astravest). The one marked `hero: true` (Mintyn) fills the
+  hero's "Now" card; the others are listed under it as "Also now". `previous` ("Before that")
+  counts back from the hero role's start.
 - `src/lib/media.ts` - screenshot existence checks and store-link labels (server only).
 - `src/lib/work.ts` - everything derived from the roles: timeline order, featured split, current
   role, measured figures, periods and durations, next-role links. **Never hand-maintain anything

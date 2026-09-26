@@ -1,6 +1,6 @@
 # Samuel Ayano, portfolio
 
-Portfolio for a senior mobile engineer: selected work as typographic covers, the resume's own
+Portfolio for a software engineer with mobile at the core: selected work as typographic covers, the resume's own
 figures tied to the roles they came from, a full experience timeline and a case-study page for
 every role. Dark by default with a light theme toggle.
 

@@ -1,7 +1,8 @@
 /**
  * The resume's SKILLS section, grouped for scanning. `primary` marks the tools the resume
  * names first or calls preferred; the renderer gives them more weight. Order matters: the
- * Stack section pairs Mobile with Payments & security on its first row.
+ * Stack section pairs Mobile with Backend on its first row. Backend (Go, Python, Django, Flask,
+ * C) comes from Samuel directly, September 2026; the rest is the resume.
  */
 export type StackGroup = { name: string; items: { label: string; primary?: boolean }[] };
 
@@ -15,6 +16,19 @@ export const stack: StackGroup[] = [
       { label: "SwiftUI", primary: true },
       { label: "Kotlin", primary: true },
       { label: "Java" },
+    ],
+  },
+  {
+    name: "Backend",
+    items: [
+      { label: "Go", primary: true },
+      { label: "Python", primary: true },
+      { label: "Django" },
+      { label: "Flask" },
+      { label: "C" },
+      { label: "REST" },
+      { label: "GraphQL" },
+      { label: "WebSocket" },
     ],
   },
   {
@@ -42,17 +56,8 @@ export const stack: StackGroup[] = [
     ],
   },
   {
-    name: "Data & backend",
-    items: [
-      { label: "REST" },
-      { label: "GraphQL" },
-      { label: "WebSocket" },
-      { label: "Firebase" },
-      { label: "Supabase" },
-      { label: "SQLite" },
-      { label: "Hive" },
-      { label: "Isar" },
-    ],
+    name: "Data",
+    items: [{ label: "Firebase" }, { label: "Supabase" }, { label: "SQLite" }, { label: "Hive" }, { label: "Isar" }],
   },
   {
     name: "Delivery",

@@ -1,7 +1,7 @@
 /** "2026-03". Month precision is all the record gives. */
 export type YearMonth = `${number}-${string}`;
 
-export type Sector = "Banking" | "Payments" | "Identity" | "Mobility" | "Commerce" | "Health" | "Events";
+export type Sector = "Banking" | "Payments" | "Identity" | "Mobility" | "Commerce" | "Health" | "Events" | "Investing";
 
 /**
  * Cover surfaces for the work cards. Each maps to a pair of CSS variables in `styles/index.css`
@@ -70,6 +70,11 @@ export type Role = {
   tone: Tone;
   /** Short labels printed on the cover. */
   tags: string[];
+  /**
+   * The ongoing role the home-page hero shows in its "Now" card. Mark one role only; any other
+   * ongoing roles are listed under it as "Also now".
+   */
+  hero?: true;
   /**
    * Position in Selected work on the home page, starting at 1. Roles without it are not
    * featured. Set explicitly: the order is an editorial choice, not the timeline's.

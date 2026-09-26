@@ -6,11 +6,13 @@
  */
 export const site = {
   name: "Samuel Ayano",
-  title: "Senior Mobile Engineer",
+  /** Software engineer first; mobile is the specialism, backend the range. */
+  title: "Software Engineer",
+  focus: "Mobile at the core",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://samuelayano.com",
   locale: "en_NG",
   description:
-    "Samuel Ayano is a senior mobile engineer in Lagos building banking, identity and mobility apps in Flutter, Swift and Kotlin for millions of users across Africa.",
+    "Samuel Ayano is a software engineer in Lagos with mobile at the core: banking, identity and investing apps in Flutter, Swift and Kotlin for millions of users across Africa, and backend services in Go and Python.",
 } as const;
 
 export const contact = {
