@@ -1,8 +1,8 @@
 import type { Role } from "./types";
 
 /**
- * Every role on the resume, in the resume's order, followed by the two contracts Samuel added
- * directly in September 2026 (Lotus Bank and WeTribe), which the resume predates.
+ * Every role on the resume, in the resume's order, followed by the contracts Samuel added directly
+ * in September 2026 (Lotus Bank, WeTribe and Astravest), which the resume predates.
  * `lib/work.ts` sorts them for display.
  *
  * Highlights restate the resume's bullets with the adjectives taken out. Figures appear only
@@ -47,6 +47,7 @@ export const roles: Role[] = [
     shots: [],
     tone: "ink",
     tags: ["Swift", "SwiftUI", "Biometrics"],
+    hero: true,
     featured: 1,
   },
   {
@@ -317,5 +318,37 @@ export const roles: Role[] = [
     shots: [],
     tone: "clay",
     tags: ["Flutter", "Live map", "Ticketing"],
+  },
+  {
+    slug: "astravest",
+    company: "Astravest",
+    context: "Adastra Tech Limited",
+    title: "Engineering Lead",
+    terms: "Contract",
+    start: "2026-05",
+    end: null,
+    sector: "Investing",
+    summary:
+      "Leading engineering across mobile and backend at Astravest, an investment app for Nigerians: keeping v1 stable in production while driving v2, in Flutter, Swift, Kotlin and Go.",
+    /**
+     * From Samuel (September 2026): Engineering Lead since 18 May 2026, across mobile (Flutter,
+     * Swift/SwiftUI, Kotlin) and backend (Go); led the team to stabilise v1 while driving v2.
+     * Product facts come from astravestapp.com and the store listings.
+     */
+    highlights: [
+      "Lead the engineering team across mobile and backend at Astravest, Adastra Tech's app for saving and investing in stocks, fixed income, commodities and real estate.",
+      "Led the team in stabilising v1, the app customers use today, while driving the build of v2.",
+      "Work across the whole stack: the Flutter app and its native Swift/SwiftUI and Kotlin layers on the client, and Go services on the backend.",
+      "The product lets people start investing from 5,000 naira and save in naira or dollars, with trades placed through SEC-registered partners.",
+    ],
+    stack: ["Flutter", "Swift", "SwiftUI", "Kotlin", "Go"],
+    stores: {
+      appStore: "https://apps.apple.com/ng/app/astravest/id1621086524",
+      googlePlay: "https://play.google.com/store/apps/details?id=com.astravestapp.astravest",
+      web: "https://astravestapp.com",
+    },
+    shots: [],
+    tone: "bone",
+    tags: ["Flutter", "Go", "Team lead", "v1 to v2"],
   },
 ];

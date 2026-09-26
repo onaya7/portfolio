@@ -2,18 +2,22 @@ import { stack } from "@/content/stack";
 import { cn } from "@/lib/utils";
 
 /**
- * Eight groups in an uneven grid. Spans are keyed by group name so reordering the content
- * does not scramble the layout; an unknown group falls back to a third of the row.
+ * Eleven groups in an uneven grid, rows of 5/7, 6/6, 7/5, 4/4/4 and 6/6. The two security groups
+ * share a tinted row so they read as a pair. Spans are keyed by group name so reordering the
+ * content does not scramble the layout; an unknown group falls back to a third of the row.
  */
 const layout: Record<string, string> = {
   Mobile: "lg:col-span-5 bg-accent text-accent-ink",
-  "Payments & security": "lg:col-span-7 cover tone-moss",
+  Backend: "lg:col-span-7 cover tone-slate",
+  "Mobile security": "lg:col-span-6 cover tone-moss",
+  "Backend security": "lg:col-span-6 cover tone-clay",
+  "Databases & ORMs": "lg:col-span-7",
+  Payments: "lg:col-span-5",
   Architecture: "lg:col-span-4",
-  "Data & backend": "lg:col-span-4",
   Delivery: "lg:col-span-4",
-  "Testing & monitoring": "lg:col-span-6",
-  Maps: "lg:col-span-3",
-  "AI-assisted": "lg:col-span-3",
+  "Testing & monitoring": "lg:col-span-4",
+  Maps: "lg:col-span-6",
+  "AI-assisted": "lg:col-span-6",
 };
 
 export default function Stack() {
@@ -26,7 +30,7 @@ export default function Stack() {
 
         <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:mt-14 lg:grid-cols-12">
           {stack.map((group, i) => {
-            const tinted = group.name === "Mobile" || group.name === "Payments & security";
+            const tinted = /\b(cover|bg-accent)\b/.test(layout[group.name] ?? "");
             return (
               <li
                 key={group.name}
