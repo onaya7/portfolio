@@ -9,6 +9,9 @@ import Button from "@/components/Button";
 /** The four roles before the current one, named as a quiet track record. */
 const before = previous.slice(0, 4);
 
+/** Every ongoing role, the `hero` one first, each with equal weight in the "Now" card. */
+const nowRoles = [current, ...alsoNow].filter((role): role is NonNullable<typeof role> => role !== null);
+
 export default function Hero() {
   return (
     <section className="page grid gap-14 pb-16 pt-14 sm:pt-20 lg:grid-cols-12 lg:gap-8 lg:pb-24 lg:pt-20">
@@ -63,42 +66,38 @@ export default function Hero() {
           />
         </div>
 
-        {current && (
-          <Link
-            href={`/work/${current.slug}`}
-            style={{ "--i": 3 } as React.CSSProperties}
-            className="rise group relative mx-3 -mt-14 block rounded-card border border-line bg-surface/95 p-5 backdrop-blur-md transition-colors duration-300 hover:border-line-strong sm:mx-4"
-          >
-            <div className="flex items-center justify-between gap-4">
-              <p className="label">Now, since {formatMonth(current.start)}</p>
-              <ArrowRight
-                aria-hidden
-                strokeWidth={1.75}
-                className="size-4 text-subtle transition-transform duration-300 ease-out group-hover:translate-x-1 group-hover:text-fg"
-              />
-            </div>
-            <p className="mt-3 text-body font-medium">
-              {current.title}, <span className="text-accent">{displayName(current)}</span>
-            </p>
-            <p className="mt-1.5 text-small text-muted">{current.summary}</p>
-          </Link>
-        )}
-
-        {alsoNow.length > 0 && (
+        {nowRoles.length > 0 && (
           <div
-            className="rise mx-3 mt-4 flex flex-wrap items-baseline gap-x-3 gap-y-1 px-5 sm:mx-4"
-            style={{ "--i": 4 } as React.CSSProperties}
+            style={{ "--i": 3 } as React.CSSProperties}
+            className="rise relative mx-3 -mt-14 rounded-card border border-line bg-surface/95 p-2 backdrop-blur-md sm:mx-4"
           >
-            <span className="label">Also now</span>
-            {alsoNow.map(role => (
-              <Link
-                key={role.slug}
-                href={`/work/${role.slug}`}
-                className="text-small text-muted underline-offset-4 transition-colors hover:text-fg hover:underline"
-              >
-                {role.title}, <span className="text-fg">{displayName(role)}</span>
-              </Link>
-            ))}
+            <p className="label px-3 pb-1 pt-3">Now</p>
+            <ul className="divide-y divide-line">
+              {nowRoles.map(role => (
+                <li key={role.slug}>
+                  <Link
+                    href={`/work/${role.slug}`}
+                    className="group block rounded-[0.75rem] px-3 py-3.5 transition-colors duration-200 hover:bg-fg/[0.04]"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <p className="text-body font-medium leading-snug">
+                        {role.title}, <span className="text-accent">{displayName(role)}</span>
+                      </p>
+                      <ArrowRight
+                        aria-hidden
+                        strokeWidth={1.75}
+                        className="mt-1 size-4 shrink-0 text-subtle transition-transform duration-200 ease-out group-hover:translate-x-1 group-hover:text-fg"
+                      />
+                    </div>
+                    <p className="mt-1.5 font-mono text-label text-subtle">
+                      Since {formatMonth(role.start)}
+                      <span aria-hidden>{"  /  "}</span>
+                      {role.tags.slice(0, 2).join(", ")}
+                    </p>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         )}
       </div>
