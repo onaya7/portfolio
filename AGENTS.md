@@ -15,6 +15,12 @@ Yarn is the package manager.
 **Never run `yarn build` while `yarn dev` is running.** The production build overwrites `.next`
 and leaves the dev server serving 500s. To verify a build while dev is up, copy the project
 (without `node_modules` and `.next`) to a scratch folder, symlink `node_modules`, and build there.
+Use `ln -sfn`, not `ln -sf`: on a second run `-sf` follows the existing link and plants a
+`node_modules/node_modules` symlink inside the real project, which Turbopack rejects once the
+project moves ("points out of the filesystem root").
+
+This repo lives at `Samuel_space/MyPortfolio/samuel_portfolio`, next to `victoria_portfolio`.
+`MyPortfolio/.claude/launch.json` starts this site by name (`samuel_portfolio`) from the parent.
 
 There is no test runner.
 
