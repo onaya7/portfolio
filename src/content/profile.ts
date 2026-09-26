@@ -1,15 +1,15 @@
 /**
  * Identity and contact details, from `Samuel Ayano resume ME.pdf`.
  *
- * `site.url` drives canonical URLs, Open Graph and the sitemap. Set NEXT_PUBLIC_SITE_URL once a
- * domain exists.
+ * `site.url` drives canonical URLs, Open Graph and the sitemap. Production sets
+ * NEXT_PUBLIC_SITE_URL in Vercel to https://samuelayano.vercel.app; the fallback matches it.
  */
 export const site = {
   name: "Samuel Ayano",
   /** Software engineer first; mobile is the specialism, backend the range. */
   title: "Software Engineer",
   focus: "Mobile at the core",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://samuelayano.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://samuelayano.vercel.app",
   locale: "en_NG",
   description:
     "Samuel Ayano is a software engineer in Lagos with mobile at the core: banking, identity and investing apps in Flutter, Swift and Kotlin for millions of users across Africa, and backend services in Go and Python.",

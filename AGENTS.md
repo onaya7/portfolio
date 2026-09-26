@@ -164,4 +164,5 @@ accessibility 100, best practices 100, SEO 100, CLS 0, on `/` and work pages. Ho
 - Outcomes for OjaNow, Cornie Health (E-lerrah) and Uobis.
 - Confirm the WeTribe highlights. They were drafted from the App Store listing at Samuel's
   request, not from a work log, and are marked DRAFT in `roles.ts`.
-- `site.url` is a guess. Set `NEXT_PUBLIC_SITE_URL` once a domain exists.
+- The site lives at https://samuelayano.vercel.app (Vercel project `portfolio`, production env
+  `NEXT_PUBLIC_SITE_URL`). If Samuel buys a custom domain, add it to the project and change both.
